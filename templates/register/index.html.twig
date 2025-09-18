@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="form-container my-5">
+    <div class="form-wrapper col-md-6 offset-md-3">
+        <h1 class="text-center">Inscription</h1>
+        {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+        
+            <div class="form-group">
+                {{ form_label(form.surname) }}
+                {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.surname) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.email) }}
+                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+            {{ form_errors(form.email) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.plainPassword.first) }}
+                <div class="input-group">
+                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control' }}) }}
+                    <div class="input-group-append">
+                        <span class="input-group-text" id="togglePassword">
+                            <i class="fa fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+                {{ form_errors(form.plainPassword.first) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.plainPassword.second) }}
+                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+            </div>
+           <section class="choix-region mt-4">
+    <h2>🌍 Choisissez Votre Région de Départ</h2>
+    <p>
+        Deux zones sont disponibles pour commencer votre aventure agricole :
+    </p>
+    <div class="zone-options">
+        {% for choice in form.zone %}
+        <div class="zone-option mb-3 text-center">
+            <div class="radio-container mb-2">
+                {{ form_widget(choice) }}
+            </div>
+            <label for="{{ choice.vars.id }}" class="zone-label d-block">
+            {% if choice.vars.value == 'autun' %}
+                <strong class="region-title">🌻 Bourgogne</strong>
+                <p class="region-desc">Une région aux grandes plaines fertiles, idéale pour les grandes cultures. 
+                Vous débuterez près de <em>la ville d'Autun</em>, dans un climat plus sec mais propice aux bons rendements.</p>
+            {% elseif choice.vars.value == 'gavray' %}
+                <strong class="region-title">🌾 Normandie</strong>
+                <p class="region-desc">Une région verte et humide, parfaite pour l'élevage et les cultures fourragères. 
+                Vous vous installerez près de <em>Gavray-sur-Sienne</em>, au cœur d'un paysage bocager traditionnel.</p>
+            {% endif %}
+            </label>
+        </div>
+        {% endfor %}
+    </div>
+
+    <p class="text-muted">
+        🌦️ Chaque région a son propre climat, ses avantages, et ses défis. À vous de choisir la stratégie qui vous correspond !
+    </p>
+
+    {{ form_errors(form.zone) }}
+</section>
+
+
+            {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const togglePassword = document.querySelector('#togglePassword');
+            const password = document.querySelector('#register_user_plainPassword_first');
+
+            togglePassword.addEventListener('click', function (e) {
+                // Toggle the type attribute
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                // Toggle the eye icon
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+        });
+    </script>
+{% endblock %}
