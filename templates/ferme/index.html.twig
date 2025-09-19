@@ -1,20 +1,226 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello FermeController!{% endblock %}
+{% block title %}Ma Ferme — Tableau de bord{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+  /* Palette Agri-Cult */
+  :root{
+    --green:#46b058; --green-600:#2f8a3f;
+    --mint:#eaf7ee; --ink:#1f2a24; --line:#d9eadf; --soft:#f9fff9;
+    --warn:#ffb74d; --danger:#ef5350; --info:#42a5f5;
+  }
+
+  .ferme-wrap{ max-width:980px; margin:26px auto; padding:0 14px; }
+  .card{
+    background:#fff; border:1px solid var(--line); border-left:10px solid var(--green);
+    border-radius:16px; padding:18px 20px; margin:16px 0; box-shadow:0 4px 14px rgba(0,0,0,.06);
+  }
+  .card h1,.card h2{ margin:0 0 10px; color:var(--ink); }
+  .card h1{ font-size:30px; font-weight:800; }
+  .ribbon{
+    display:inline-flex; align-items:center; gap:8px; padding:6px 10px;
+    background:var(--mint); border:1px solid var(--line); border-radius:12px; font-weight:700;
+  }
+  .meta, .empty{ color:#37463e; line-height:1.6; }
+  .empty{ opacity:.75; font-style:italic; }
+
+  /* Listes “beaux éléments” */
+  .list{ display:flex; flex-direction:column; gap:10px; margin-top:12px; }
+  .item{
+    display:flex; align-items:center; gap:12px; padding:12px;
+    background:var(--soft); border:1px solid var(--line); border-radius:12px;
+  }
+  .item .ico{ font-size:22px; line-height:1; }
+  .item .title{ font-weight:700; }
+  .badges{ margin-left:auto; display:flex; gap:8px; flex-wrap:wrap; }
+  .badge{
+    padding:3px 10px; border-radius:999px; border:1px solid var(--line); background:#fff; font-size:.85rem;
+  }
+  .badge.warn{ background:#fff7e8; border-color:#ffe0b2; }
+  .badge.danger{ background:#ffebee; border-color:#ffcdd2; }
+  .badge.info{ background:#e8f3ff; border-color:#bbdefb; }
+
+  /* CTA */
+  .actions{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; padding:10px 14px; border-radius:10px; text-decoration:none; font-weight:700;
+    background:var(--green); color:#fff;
+  }
+  .btn:hover{ background:var(--green-600); }
+
+  /* Spécifiques */
+  .card.local{ border-left-color:var(--info); }
+  .card.notes{ border-left-color:var(--green-600); }
+  .card.animaux{ border-left-color:var(--warn); }
+  .card.parcelles{ border-left-color:var(--green); }
+  .card.machines{ border-left-color:var(--danger); }
+
+  .notes-box{
+    min-height:120px; background:var(--mint); border:1px dashed var(--line);
+    border-radius:12px; padding:14px; white-space:pre-wrap;
+    font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color:#2b3b33;
+  }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="ferme-wrap">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/agriculture/src/Controller/FermeController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/agriculture/templates/ferme/index.html.twig</code></li>
-    </ul>
+  <!-- Titre / header -->
+  <section class="card">
+    <h1>Bienvenue JEREMY30</h1>
+    <p class="meta">Tableau de bord de votre exploitation.</p>
+  </section>
+
+  <!-- Localisation (VIDE) -->
+  <section class="card local">
+    <span class="ribbon">📍 Localisation</span>
+    <p class="empty" style="margin-top:10px">
+      Aucune information de localisation enregistrée pour l’instant.
+      (Département, Zone, Région climatique…)
+    </p>
+    <div class="actions">
+      <a href="#" class="btn">Renseigner la localisation</a>
+    </div>
+  </section>
+
+  <!-- Bloc-notes (VIDE) -->
+  <section class="card notes">
+    <span class="ribbon">📝 Bloc-notes principal</span>
+    <div class="notes-box empty" aria-label="Bloc-notes vide">
+      (Votre bloc-notes est vide. Ajoutez vos tâches, rappels, idées…)
+    </div>
+    <div class="actions">
+      <a href="#" class="btn">Ajouter une note</a>
+    </div>
+  </section>
+
+  <!-- Animaux à soigner -->
+  <section class="card animaux">
+    <span class="ribbon">🐄 Animaux à soigner</span>
+    <div class="list">
+      <div class="item">
+        <div class="ico">🐔</div>
+        <div>
+          <div class="title">Poulailler #2</div>
+          <div class="meta">Carence possible — vérifier alimentation et eau</div>
+        </div>
+        <div class="badges">
+          <span class="badge warn">Priorité: Moyenne</span>
+          <span class="badge">32 têtes</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="ico">🐄</div>
+        <div>
+          <div class="title">Vaches laitières — Lot A</div>
+          <div class="meta">Boiterie signalée (2 sujets) — contrôle du parage</div>
+        </div>
+        <div class="badges">
+          <span class="badge danger">Priorité: Haute</span>
+          <span class="badge">48 têtes</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="ico">🐖</div>
+        <div>
+          <div class="title">Porcherie #1</div>
+          <div class="meta">Vaccination hebdo à planifier</div>
+        </div>
+        <div class="badges">
+          <span class="badge info">Échéance: J+2</span>
+          <span class="badge">76 têtes</span>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn">Ouvrir le module Animaux</a>
+    </div>
+  </section>
+
+  <!-- Parcelles à travailler -->
+  <section class="card parcelles">
+    <span class="ribbon">🌱 Parcelles à travailler</span>
+    <div class="list">
+      <div class="item">
+        <div class="ico">🧭</div>
+        <div>
+          <div class="title">Parcelle P-12 — 8.4 ha</div>
+          <div class="meta">Préparation de sol : déchaumage + test pH</div>
+        </div>
+        <div class="badges">
+          <span class="badge">Sol: limono-argileux</span>
+          <span class="badge info">Échéance: Aujourd’hui</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="ico">🌾</div>
+        <div>
+          <div class="title">Parcelle B-07 — 12.1 ha</div>
+          <div class="meta">Semis orge d’hiver — créneau météo OK</div>
+        </div>
+        <div class="badges">
+          <span class="badge warn">Fenêtre: 48h</span>
+          <span class="badge">Besoin: 2 H</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="ico">💧</div>
+        <div>
+          <div class="title">Parcelle M-03 — 5.2 ha</div>
+          <div class="meta">Irrigation légère + contrôle pression</div>
+        </div>
+        <div class="badges">
+          <span class="badge">Rivière: proche</span>
+          <span class="badge info">Niveau hydrique: bas</span>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn">Voir le plan de travail</a>
+    </div>
+  </section>
+
+  <!-- Machines indisponibles -->
+  <section class="card machines">
+    <span class="ribbon">🛠️ Machines indisponibles</span>
+    <div class="list">
+      <div class="item">
+        <div class="ico">🚜</div>
+        <div>
+          <div class="title">Tracteur T-140</div>
+          <div class="meta">Panne hydraulique — pièce en commande</div>
+        </div>
+        <div class="badges">
+          <span class="badge danger">Indispo</span>
+          <span class="badge info">ETA: 3 jours</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="ico">🌾</div>
+        <div>
+          <div class="title">Moissonneuse M-8</div>
+          <div class="meta">Révision annuelle — atelier</div>
+        </div>
+        <div class="badges">
+          <span class="badge warn">Maintenance</span>
+          <span class="badge">File d’attente: 2</span>
+        </div>
+      </div>
+      <div class="item">
+        <div class="ico">🧯</div>
+        <div>
+          <div class="title">Pulvérisateur P-320</div>
+          <div class="meta">Non conforme (buses) — contrôle sécurité requis</div>
+        </div>
+        <div class="badges">
+          <span class="badge danger">Bloqué</span>
+          <span class="badge info">Audit: demain</span>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn">Accéder aux Machines</a>
+    </div>
+  </section>
+
 </div>
 {% endblock %}

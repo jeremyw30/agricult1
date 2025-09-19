@@ -1,0 +1,91 @@
+<footer class="footer">
+  <div class="footer-container">
+    
+    <!-- Bloc équipe -->
+    <div class="footer-col">
+      <h4>🧑‍🌾 L’équipe</h4>
+      <ul>
+        <li><strong>Jeremy</strong> – Fondateur & Développeur principal</li>
+        <li><em>Créateur d’Agri-Cult</em>, en charge de la vision globale, du gameplay et du projet.</li>
+      </ul>
+    </div>
+
+    <!-- Bloc collaborateurs -->
+    <div class="footer-col">
+      <h4>🧠 Collaborateurs réguliers</h4>
+      <ul>
+        <li><strong>Mr Denis</strong> – Professeur, pilier du projet</li>
+        <li><strong>Amélie</strong> – Structuration des fichiers Word</li>
+        <li><strong>Célia</strong> – Logo & icônes</li>
+        <li><strong>Prescillia</strong> – Animation Facebook, TikTok & Instagram</li>
+        <li><strong>Testeurs alpha</strong> – Joueurs sélectionnés</li>
+      </ul>
+    </div>
+
+    <!-- Bloc remerciements -->
+    <div class="footer-col">
+      <h4>🙏 Remerciements</h4>
+      <p>Merci aux joueurs passionnés qui partagent leurs idées, à ChatGPT pour l’assistance rédactionnelle et technique, et à nos partenaires.</p>
+    </div>
+
+    <!-- Bloc techno -->
+    <div class="footer-col">
+      <h4>⚙️ Technologies utilisées</h4>
+      <ul>
+        <li>Symfony – Backend du site et du jeu</li>
+        <li>MySQL – Base de données</li>
+        <li>Bootstrap 5 – Interface responsive</li>
+        <li>JavaScript / jQuery – Fonctions dynamiques</li>
+        <li>Discord – Communauté & support</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© {{ "now"|date("Y") }} Agri-Cult – Tous droits réservés.</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: #2e7d32; /* Vert foncé Agri-Cult */
+    color: #f1fdf1;
+    padding: 40px 20px 20px;
+    margin-top: 40px;
+  }
+  .footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .footer-col h4 {
+    color: #fff;
+    font-size: 1.05rem;
+    margin-bottom: 12px;
+    border-bottom: 2px solid #4CAF50;
+    display: inline-block;
+    padding-bottom: 4px;
+  }
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .footer-col li {
+    margin: 4px 0;
+  }
+  .footer-col p {
+    font-size: .9rem;
+    line-height: 1.4;
+  }
+  .footer-bottom {
+    border-top: 1px solid #4CAF50;
+    text-align: center;
+    margin-top: 24px;
+    padding-top: 12px;
+    font-size: .85rem;
+    color: #d4eed4;
+  }
+</style>

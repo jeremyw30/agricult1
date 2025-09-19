@@ -1,20 +1,222 @@
+{# templates/parcelle/inventaire.html.twig #}
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello ParcelleController!{% endblock %}
+{% block title %}Agri-Cult — Inventaire des parcelles{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+  :root{
+    --sand:#efe9dd; --leaf:#3d7a53; --leaf-dark:#2d5c3e;
+    --ink:#1f2520; --muted:#6b726b; --line:#e6e2d9; --chip:#f5f2ea; --bg:#fbfaf7;
+  }
+  body{background:var(--bg); color:var(--ink);}
+  .wrap{max-width:1500px;margin:18px auto;padding:0 16px;display:grid;grid-template-columns:300px 1fr;gap:16px}
+  @media (max-width:980px){.wrap{grid-template-columns:1fr}}
+
+  /* ——— Panneau gauche ——— */
+  .side{
+    background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;
+  }
+  .side-head{
+    background:var(--sand);padding:12px 14px;border-bottom:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center
+  }
+  .side-head .ttl{font-weight:800;letter-spacing:.2px}
+  .side-body{padding:10px}
+  .bloc{border:1px solid var(--line);border-radius:12px;padding:10px;margin-bottom:10px;background:#fff}
+  .bloc h4{margin:0 0 8px;font-size:.96rem;color:var(--leaf-dark)}
+  .parcel-mini{display:grid;grid-template-columns:1fr auto;gap:6px;padding:8px;border:1px dashed var(--line);border-radius:10px;margin-bottom:8px}
+  .parcel-mini .name{font-weight:800}
+  .parcel-mini .meta{color:var(--muted);font-size:.86rem}
+  .prog{height:6px;background:#eee;border-radius:999px;overflow:hidden}
+  .prog>span{display:block;height:100%;background:var(--leaf)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+  .chip{background:var(--chip);border:1px solid var(--line);border-radius:999px;padding:2px 10px;font-size:.78rem;color:#3e463e}
+
+  /* ——— Zone droite ——— */
+  .panel{
+    background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden
+  }
+  .panel-head{
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    padding:12px 14px;background:var(--sand);border-bottom:1px solid var(--line)
+  }
+  .title{font-weight:900;letter-spacing:.2px}
+  .tabs{display:flex;gap:8px;flex-wrap:wrap}
+  .tab{padding:7px 12px;border:1px solid var(--leaf);border-radius:999px;color:var(--leaf);background:#fff;cursor:pointer;font-weight:700}
+  .tab.active{background:var(--leaf);color:#fff}
+  .tools{display:flex;gap:8px}
+  .search{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+  .search input{border:none;outline:none;width:240px}
+  .btn{border:1px solid var(--leaf);background:#fff;color:var(--leaf);border-radius:10px;padding:8px 12px;font-weight:700;cursor:pointer}
+  .btn.primary{background:var(--leaf);color:#fff}
+
+  /* ——— Tableau inventaire ——— */
+  .table-wrap{overflow:auto}
+  table{width:100%;border-collapse:separate;border-spacing:0}
+  thead th{
+    position:sticky;top:0;background:#fff;z-index:1;
+    border-bottom:2px solid var(--leaf);padding:10px;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--leaf-dark)
+  }
+  tbody td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+  tbody tr:nth-child(odd){background:#fff}
+  tbody tr:nth-child(even){background:#fbfbf7}
+  .idpill{font-weight:900;background:#ecf5ef;border:1px solid #d7e9dc;border-radius:8px;padding:2px 6px;margin-right:6px}
+  .badge{display:inline-block;background:#f0eee7;border:1px solid var(--line);padding:2px 8px;border-radius:999px;font-size:.78rem}
+  .num{font-weight:800}
+  .money{font-feature-settings:"tnum" 1;}
+  .tag{color:var(--muted);font-size:.9rem}
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="wrap">
+  <!-- ——— Colonne gauche ——— -->
+  <aside class="side">
+    <div class="side-head">
+      <div class="ttl">Répertoire des parcelles</div>
+      <div class="tag">Vue statique</div>
+    </div>
+    <div class="side-body">
+      <div class="bloc">
+        <h4>À surveiller</h4>
+        <div class="parcel-mini">
+          <div>
+            <div class="name">Champ des Vignes</div>
+            <div class="meta">8,20 ha • Luzerne • Semée</div>
+            <div class="chips">
+              <span class="chip">Inclinaison 3%</span>
+              <span class="chip">Drainage fossé</span>
+            </div>
+          </div>
+          <div style="min-width:120px">
+            <div class="prog"><span style="width:20%"></span></div>
+            <div class="meta" style="text-align:right;margin-top:4px">Pousse 20%</div>
+          </div>
+        </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/agriculture/src/Controller/ParcelleController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/agriculture/templates/parcelle/index.html.twig</code></li>
-    </ul>
+        <div class="parcel-mini">
+          <div>
+            <div class="name">Prairie Haute</div>
+            <div class="meta">12,50 ha • Luzerne • Semée</div>
+            <div class="chips">
+              <span class="chip">Inclinaison 6%</span>
+              <span class="chip">Drain enterré</span>
+            </div>
+          </div>
+          <div style="min-width:120px">
+            <div class="prog"><span style="width:70%"></span></div>
+            <div class="meta" style="text-align:right;margin-top:4px">Pousse 70%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bloc">
+        <h4>Filtres rapides</h4>
+        <div class="chips">
+          <span class="chip">Sol léger</span>
+          <span class="chip">Sol lourd</span>
+          <span class="chip">Drainé</span>
+          <span class="chip">Pente &lt; 3%</span>
+          <span class="chip">Fertilité A-B</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ——— Zone droite ——— -->
+  <section class="panel">
+    <div class="panel-head">
+      <div class="title">Inventaire des parcelles</div>
+      <div class="tabs">
+        <span class="tab active">Culture</span>
+        <span class="tab">Sol</span>
+        <span class="tab">Eau</span>
+        <span class="tab">Animaux</span>
+        <span class="tab">Haie</span>
+      </div>
+      <div class="tools">
+        <div class="search"><span>🔎</span><input placeholder="Rechercher (nom, sol, drainage…)"></div>
+        <button class="btn">⚡ Actions</button>
+        <button class="btn primary">➕ Nouvelle</button>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Parcelle</th>
+            <th>Localisation</th>
+            <th>Culture / État</th>
+            <th>Pousse</th>
+            <th>Surface</th>
+            <th>Type de sol</th>
+            <th>Inclinaison</th>
+            <th>Drainage</th>
+            <th>Qualité</th>
+            <th>Fertilité</th>
+            <th>Prix de base</th>
+            <th>Créée le</th>
+            <th>GPS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- — Ligne 1 — -->
+          <tr>
+            <td>
+              <span class="idpill">n°5371780</span>
+              Champ des Vignes
+            </td>
+            <td>Bourgogne / Nièvre (58)</td>
+            <td><span class="badge">LUZERNE</span> <span class="tag">Semée</span></td>
+            <td><span class="num">20%</span></td>
+            <td>8,20 ha</td>
+            <td>Limon sablo-argileux</td>
+            <td>3%</td>
+            <td>Fossé</td>
+            <td>72 / 100</td>
+            <td>B</td>
+            <td class="money">42 000 €</td>
+            <td>12/03/2025</td>
+            <td>49.03, −1.35</td>
+          </tr>
+
+          <!-- — Ligne 2 — -->
+          <tr>
+            <td><span class="idpill">n°5458959</span> Prairie Haute</td>
+            <td>Bourgogne / Yonne (89)</td>
+            <td><span class="badge">LUZERNE</span> <span class="tag">Semée</span></td>
+            <td><span class="num">70%</span></td>
+            <td>12,50 ha</td>
+            <td>Argilo-calcaire</td>
+            <td>6%</td>
+            <td>Drain enterré</td>
+            <td>58 / 100</td>
+            <td>C</td>
+            <td class="money">60 500 €</td>
+            <td>28/04/2025</td>
+            <td>46.95, 4.30</td>
+          </tr>
+
+          <!-- — Ligne 3 — -->
+          <tr>
+            <td><span class="idpill">n°5458961</span> Clos de la Rivière</td>
+            <td>Pays de la Loire</td>
+            <td><span class="badge">ORGE</span> <span class="tag">Tallage</span></td>
+            <td><span class="num">20%</span></td>
+            <td>6,90 ha</td>
+            <td>Limono-argileux</td>
+            <td>1%</td>
+            <td>Naturel</td>
+            <td>81 / 100</td>
+            <td>A</td>
+            <td class="money">31 900 €</td>
+            <td>05/05/2025</td>
+            <td>47.16, −0.52</td>
+          </tr>
+
+          <!-- Duplique les <tr> pour ajouter d’autres parcelles statiques -->
+        </tbody>
+      </table>
+    </div>
+  </section>
 </div>
 {% endblock %}

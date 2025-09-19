@@ -1,20 +1,141 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello MachineController!{% endblock %}
+{% block title %}Machines — vignettes{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+  :root{
+    --bg:#f8fdf8; 
+    --paper:#fff; 
+    --line:#dce7dc;
+    --ink:#1a1f1a; 
+    --muted:#5c635c;
+    --accent:#4CAF50;       /* vert navbar Agri-Cult */
+    --accent-dark:#3d8b40;
+    --ok:#22c55e; 
+    --warn:#eab308; 
+    --bad:#dc2626;
+  }
+  body{background:var(--bg); color:var(--ink);}
+  .wrap{max-width:1100px;margin:16px auto;padding:0 10px}
+  .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+  .title{font-weight:800;font-size:1.1rem;color:var(--accent-dark)}
+  .search{display:flex;gap:6px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+  .search input{border:none;outline:none;width:200px;font-size:.85rem}
+
+  /* grille : plus serrée */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap:8px;
+  }
+  .card{
+    background:var(--paper); border:1px solid var(--line); border-radius:8px;
+    padding:8px; display:flex; align-items:center; gap:8px;
+    font-size:.8rem; line-height:1.3;
+  }
+
+  .thumb{
+    flex-shrink:0; width:64px; height:64px; border-radius:6px; overflow:hidden;
+    border:1px solid var(--line); background:#f4f9f4;
+  }
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .info{flex:1}
+  .id{font-weight:700;font-size:.7rem;color:#fff;background:var(--accent);
+      padding:1px 6px;border-radius:999px;display:inline-block;margin-bottom:2px}
+  .name{font-weight:800;color:var(--accent-dark)}
+  .sub{color:var(--muted);font-size:.72rem}
+
+  dl{margin:4px 0 0;display:grid;grid-template-columns:auto 1fr;gap:2px 6px;font-size:.72rem}
+  dt{color:var(--muted)}
+  dd{margin:0;font-weight:700}
+
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:4px}
+  .price{font-weight:800;color:var(--accent-dark);font-size:.8rem}
+  .status{font-weight:700;font-size:.7rem;padding:1px 6px;border-radius:6px;display:inline-block}
+  .is-ok{background:#ecfdf5;color:var(--ok)}
+  .is-warn{background:#fffbe8;color:var(--warn)}
+  .is-bad{background:#fef2f2;color:var(--bad)}
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="wrap">
+  <div class="head">
+    <div class="title">Machines — vignettes compactes</div>
+    <div class="search"><span>🔎</span><input id="q" placeholder="Rechercher…"></div>
+  </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/agriculture/src/Controller/MachineController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/agriculture/templates/machine/index.html.twig</code></li>
-    </ul>
+  <section class="grid" id="grid">
+    <!-- Carte 1 -->
+    <article class="card" data-search="tracteur john deere 8r 410">
+      <div class="thumb"><img src="https://picsum.photos/id/1011/100/100" alt=""></div>
+      <div class="info">
+        <span class="id">M001</span>
+        <div class="name">Tracteur</div>
+        <div class="sub">John Deere • 8R 410</div>
+        <dl>
+          <dt>Année</dt><dd>2021</dd>
+          <dt>Puiss.</dt><dd>410 ch</dd>
+          <dt>Conso</dt><dd>25 L/h</dd>
+        </dl>
+        <div class="foot">
+          <div class="price">250 000 €</div>
+          <span class="status is-ok">Bon</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Carte 2 -->
+    <article class="card" data-search="moissonneuse new holland cr9.90">
+      <div class="thumb"><img src="https://picsum.photos/id/1039/100/100" alt=""></div>
+      <div class="info">
+        <span class="id">M002</span>
+        <div class="name">Moissonneuse</div>
+        <div class="sub">New Holland • CR 9.90</div>
+        <dl>
+          <dt>Année</dt><dd>2018</dd>
+          <dt>Puiss.</dt><dd>600 ch</dd>
+          <dt>Conso</dt><dd>40 L/h</dd>
+        </dl>
+        <div class="foot">
+          <div class="price">380 000 €</div>
+          <span class="status is-warn">Usée</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Carte 3 -->
+    <article class="card" data-search="charrue kuhn vari-master">
+      <div class="thumb"><img src="https://picsum.photos/id/1056/100/100" alt=""></div>
+      <div class="info">
+        <span class="id">M003</span>
+        <div class="name">Charrue</div>
+        <div class="sub">Kuhn • Vari-Master 153</div>
+        <dl>
+          <dt>Année</dt><dd>2020</dd>
+          <dt>Puiss.</dt><dd>150 ch</dd>
+          <dt>Conso</dt><dd>–</dd>
+        </dl>
+        <div class="foot">
+          <div class="price">15 000 €</div>
+          <span class="status is-bad">HS</span>
+        </div>
+      </div>
+    </article>
+  </section>
 </div>
+
+<script>
+/* Filtre simple */
+const q=document.getElementById('q');
+if(q){
+  const cards=[...document.querySelectorAll('#grid .card')];
+  q.addEventListener('input',e=>{
+    const v=e.target.value.toLowerCase();
+    cards.forEach(c=>{
+      const hay=(c.getAttribute('data-search')||c.textContent).toLowerCase();
+      c.style.display=hay.includes(v)?'':'none';
+    });
+  });
+}
+</script>
 {% endblock %}

@@ -1,7 +1,186 @@
+{# templates/parcelle/catalogue.html.twig #}
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Catalogue des parcelles{% endblock %}
 
 {% block body %}
-<h1>home</h1>
+<style>
+  :root{
+    --bg:#f6f7fb; --paper:#ffffff; --line:#e6e8ef; --ink:#0f172a; --muted:#6b7280;
+    --accent:#2563eb; --accent-2:#1d4ed8; --chip:#eef2ff; --ok:#10b981;
+  }
+  body{background:var(--bg); color:var(--ink);}
+  .wrap{max-width:1200px; margin:22px auto; padding:0 16px;}
+  .pagehead{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:12px}
+  .title{font-size:1.3rem; font-weight:900}
+  .hint{color:var(--muted); font-size:.92rem}
+
+  /* grille de cartes */
+  .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:14px}
+  .card{
+    grid-column:span 4 / span 4; background:var(--paper);
+    border:1px solid var(--line); border-radius:14px; overflow:hidden;
+    display:flex; flex-direction:column; min-height:180px;
+  }
+  @media (max-width:1100px){ .card{grid-column:span 6 / span 6} }
+  @media (max-width:640px){  .card{grid-column:span 12 / span 12} }
+
+  .cap{display:flex; justify-content:space-between; align-items:center;
+       padding:12px 14px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fafbff)}
+  .name{font-weight:900}
+  .idpill{background:var(--chip); color:#1e3a8a; border:1px solid #dbe3ff;
+          padding:2px 8px; border-radius:999px; font-weight:800; font-size:.8rem}
+
+  .body{padding:14px; display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  @media (max-width:700px){ .body{grid-template-columns:1fr} }
+
+  /* liste caractéristiques */
+  dl{margin:0; display:grid; grid-template-columns:auto 1fr; gap:6px 10px}
+  dt{color:var(--muted); font-size:.88rem}
+  dd{margin:0; font-weight:800}
+
+  /* chips sol/drainage */
+  .chips{display:flex; flex-wrap:wrap; gap:6px}
+  .chip{background:#f3f4f6; border:1px solid var(--line); color:#334155;
+        border-radius:999px; padding:2px 10px; font-size:.78rem}
+
+  /* jauges qualité/fertilité */
+  .g{display:grid; grid-template-columns:78px 1fr; gap:8px; align-items:center}
+  .g .k{color:var(--muted); font-size:.85rem}
+  .bar{height:8px; background:#e5e7eb; border-radius:999px; overflow:hidden}
+  .bar>span{display:block; height:100%; background:linear-gradient(90deg,var(--accent),#60a5fa)}
+
+  .foot{display:flex; justify-content:space-between; align-items:center;
+        padding:12px 14px; border-top:1px solid var(--line); background:#fff}
+  .price{font-weight:900}
+  .date{color:var(--muted); font-size:.9rem}
+</style>
+
+<div class="wrap">
+  <div class="pagehead">
+    <div class="title">Catalogue des parcelles</div>
+    <div class="hint">Aperçu statique basé sur <em>id_parcelle, name, surface_hectare, type_sol, inclinaison, drainage, base_price, created_at, quality, fertility_level</em>.</div>
+  </div>
+
+  <section class="grid">
+
+    <!-- === FICHE 1 === -->
+    <article class="card">
+      <header class="cap">
+        <div class="name">Champ des Vignes</div>
+        <span class="idpill">ID : 001</span>
+      </header>
+
+      <div class="body">
+        <div>
+          <dl>
+            <dt>Surface (ha)</dt><dd>8,20</dd>
+            <dt>Inclinaison</dt><dd>3 %</dd>
+            <dt>Type de sol</dt><dd>Limon sablo-argileux</dd>
+            <dt>Drainage</dt><dd>Fossé</dd>
+          </dl>
+          <div class="chips" style="margin-top:8px">
+            <span class="chip">Sol : Limon sablo-argileux</span>
+            <span class="chip">Drainage : Fossé</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="g">
+            <div class="k">Qualité (0-100)</div>
+            <div class="bar"><span style="width:72%"></span></div>
+          </div>
+          <div class="g" style="margin-top:8px">
+            <div class="k">Fertilité (A-E)</div>
+            <div class="bar"><span style="width:65%"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <div class="price">Prix de base : 42 000 €</div>
+        <div class="date">Créée le 12/03/2025</div>
+      </footer>
+    </article>
+
+    <!-- === FICHE 2 === -->
+    <article class="card">
+      <header class="cap">
+        <div class="name">Prairie Haute</div>
+        <span class="idpill">ID : 002</span>
+      </header>
+
+      <div class="body">
+        <div>
+          <dl>
+            <dt>Surface (ha)</dt><dd>12,50</dd>
+            <dt>Inclinaison</dt><dd>6 %</dd>
+            <dt>Type de sol</dt><dd>Argilo-calcaire</dd>
+            <dt>Drainage</dt><dd>Drain enterré</dd>
+          </dl>
+          <div class="chips" style="margin-top:8px">
+            <span class="chip">Sol : Argilo-calcaire</span>
+            <span class="chip">Drainage : Drain enterré</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="g">
+            <div class="k">Qualité (0-100)</div>
+            <div class="bar"><span style="width:58%"></span></div>
+          </div>
+          <div class="g" style="margin-top:8px">
+            <div class="k">Fertilité (A-E)</div>
+            <div class="bar"><span style="width:48%"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <div class="price">Prix de base : 60 500 €</div>
+        <div class="date">Créée le 28/04/2025</div>
+      </footer>
+    </article>
+
+    <!-- === FICHE 3 === -->
+    <article class="card">
+      <header class="cap">
+        <div class="name">Clos de la Rivière</div>
+        <span class="idpill">ID : 003</span>
+      </header>
+
+      <div class="body">
+        <div>
+          <dl>
+            <dt>Surface (ha)</dt><dd>6,90</dd>
+            <dt>Inclinaison</dt><dd>1 %</dd>
+            <dt>Type de sol</dt><dd>Limono-argileux</dd>
+            <dt>Drainage</dt><dd>Naturel</dd>
+          </dl>
+          <div class="chips" style="margin-top:8px">
+            <span class="chip">Sol : Limono-argileux</span>
+            <span class="chip">Drainage : Naturel</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="g">
+            <div class="k">Qualité (0-100)</div>
+            <div class="bar"><span style="width:81%"></span></div>
+          </div>
+          <div class="g" style="margin-top:8px">
+            <div class="k">Fertilité (A-E)</div>
+            <div class="bar"><span style="width:88%"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="foot">
+        <div class="price">Prix de base : 31 900 €</div>
+        <div class="date">Créée le 05/05/2025</div>
+      </footer>
+    </article>
+
+    {# Duplique les <article class="card"> pour d'autres parcelles #}
+  </section>
+</div>
 {% endblock %}

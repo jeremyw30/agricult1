@@ -1,20 +1,141 @@
 {% extends 'base.html.twig' %}
-
-{% block title %}Hello BatimentController!{% endblock %}
+{% block title %}Bâtiments{% endblock %}
 
 {% block body %}
 <style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+  /* Thème minimal, inspiré tableur */
+  :root{
+    --ink:#1f1f1f; --muted:#6b6b6b;
+    --line:#e5e7eb; --line-strong:#d1d5db;
+    --bg:#ffffff; --bg-alt:#fafafa;
+    --accent:#2f7d32; /* vert Agricult discret */
+  }
+
+  .wrap{max-width:1100px;margin:28px auto;padding:0 12px;}
+  .header{display:flex;align-items:baseline;gap:12px;margin-bottom:10px}
+  .header h1{font-size:22px;margin:0;color:var(--ink);font-weight:800}
+  .sub{color:var(--muted);font-size:13px}
+
+  /* Barre d’outils */
+  .toolbar{
+    display:flex;gap:8px;flex-wrap:wrap;align-items:center;
+    border:1px solid var(--line);background:var(--bg-alt);
+    padding:10px;border-radius:8px;margin:10px 0 12px;
+  }
+  .input,.select{height:34px;border:1px solid var(--line);border-radius:6px;background:#fff;padding:0 10px;font-size:14px}
+  .btn{height:34px;padding:0 12px;border:1px solid var(--line-strong);background:#fff;border-radius:6px;font-weight:600;cursor:pointer}
+  .btn.primary{border-color:var(--accent);color:#fff;background:var(--accent)}
+
+  /* Tableau */
+  .table-wrap{border:1px solid var(--line);border-radius:8px;overflow:auto;background:#fff}
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  thead th{
+    position:sticky;top:0;background:#f6f6f6;border-bottom:1px solid var(--line-strong);
+    text-align:left;padding:10px 12px;white-space:nowrap;font-weight:700;color:#222
+  }
+  tbody td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:middle;white-space:nowrap}
+  tbody tr:hover{background:#fcfcfc}
+  tbody tr:nth-child(even){background:#fff}
+  .num{text-align:right}
+  .status{font-weight:700}
+  .ok{color:#2f7d32}.mid{color:#9a6b00}.bad{color:#b3261e}
+  .id{color:#444}
+  .foot{display:flex;justify-content:space-between;align-items:center;color:var(--muted);font-size:12px;padding:10px 4px}
+
+  /* Colonnes : largeur indicative */
+  .w-id{width:72px}
+  .w-name{min-width:220px}
+  .w-type{min-width:130px}
+  .w-date{width:120px}
+  .w-actions{width:110px}
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="wrap">
+  <div class="header">
+    <h1>Bâtiments</h1>
+    <span class="sub">Vue tableau (schéma: id_batiment, name, type, surface_m2, storage_capacity, base_price, condition_status, created_at, animal_capacity)</span>
+  </div>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>C:/xampp/htdocs/agriculture/src/Controller/BatimentController.php</code></li>
-        <li>Your template at <code>C:/xampp/htdocs/agriculture/templates/batiment/index.html.twig</code></li>
-    </ul>
+  <!-- Outils -->
+  <div class="toolbar">
+    <input class="input" type="search" placeholder="Recherche (id, nom, type)…">
+    <select class="select">
+      <option value="">Type</option>
+      <option>Hangar</option><option>Poulailler</option><option>Étable</option><option>Porcherie</option><option>Silo</option>
+    </select>
+    <select class="select">
+      <option value="">État</option>
+      <option>Neuf</option><option>Bon</option><option>Usé</option><option>Hors service</option>
+    </select>
+    <button class="btn">Réinitialiser</button>
+    <div style="margin-left:auto;display:flex;gap:8px">
+      <button class="btn">Exporter CSV</button>
+      <button class="btn primary">Nouveau bâtiment</button>
+    </div>
+  </div>
+
+  <!-- Tableau principal -->
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th class="w-id">ID</th>
+          <th class="w-name">Bâtiment (name)</th>
+          <th class="w-type">Type</th>
+          <th class="num">Surface (m²)</th>
+          <th class="num">Cap. stockage</th>
+          <th class="num">Cap. animale</th>
+          <th class="num">Prix de base (€)</th>
+          <th>État</th>
+          <th class="w-date">Créé le</th>
+          <th class="w-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Exemples statiques ultra sobres -->
+        <tr>
+          <td class="id">1</td>
+          <td>Hangar principal</td>
+          <td>Hangar</td>
+          <td class="num">450</td>
+          <td class="num">40 emplacements</td>
+          <td class="num">—</td>
+          <td class="num">13 500</td>
+          <td class="status ok">Bon</td>
+          <td>2025-03-12</td>
+          <td><button class="btn">Voir</button></td>
+        </tr>
+        <tr>
+          <td class="id">2</td>
+          <td>Poulailler #2</td>
+          <td>Poulailler</td>
+          <td class="num">120</td>
+          <td class="num">2 t grains</td>
+          <td class="num">60</td>
+          <td class="num">3 600</td>
+          <td class="status mid">Usé</td>
+          <td>2025-04-01</td>
+          <td><button class="btn">Voir</button></td>
+        </tr>
+        <tr>
+          <td class="id">3</td>
+          <td>Étable lait A</td>
+          <td>Étable</td>
+          <td class="num">380</td>
+          <td class="num">12 t fourrage</td>
+          <td class="num">48</td>
+          <td class="num">9 900</td>
+          <td class="status bad">Hors service</td>
+          <td>2025-05-22</td>
+          <td><button class="btn">Réparer</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="foot">
+    <div>3 lignes affichées</div>
+    <div>« 1 » 2 3 … 10</div>
+  </div>
 </div>
 {% endblock %}
