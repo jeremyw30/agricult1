@@ -3,6 +3,14 @@
         <span id="widget-hamburger" style="position: absolute; top: 4px; left: 4px; font-size: 13px; cursor: pointer; z-index: 1100; background: rgba(255,255,255,0.7); border-radius: 3px; padding: 1px 3px;">
             &#9776;
         </span>
+        <div id="widget-menu" style="display: none; position: absolute; top: 32px; left: 4px; min-width: 120px; background: #fff; border: 1px solid #2196f3; border-radius: 4px; box-shadow: 0 2px 8px rgba(33,150,243,0.12); z-index: 1200;">
+                <ul style="list-style: none; margin: 0; padding: 4px 0;">
+                    <li style="padding: 2px 10px; cursor: pointer; color: #2196f3; font-size: 12px; font-family: 'Work Sans', sans-serif; font-weight: bold; letter-spacing: 0.6px;" class="widget-menu-item">Prévisions</li>
+                    <li style="padding: 2px 10px; cursor: pointer; color: #2196f3; font-size: 12px; font-family: 'Work Sans', sans-serif; font-weight: bold; letter-spacing: 0.6px;" class="widget-menu-item">Historique</li>
+                    <li style="padding: 2px 10px; cursor: pointer; color: #2196f3; font-size: 12px; font-family: 'Work Sans', sans-serif; font-weight: bold; letter-spacing: 0.6px;" class="widget-menu-item">Paramètres</li>
+                </ul>
+            </div>
+        </span>
     <div class="weather-header">
         <h3 class="weather-location">{{ zone|capitalize }}</h3>
         <div class="weather-time">{{ serverTime.formattedDateTime }}</div>
@@ -168,10 +176,26 @@
     border-color: #2196f3 !important;
     transform: rotate(20deg) scale(1.15) !important;
 }
+/* Ajout pour rendre l'icône hamburger bleue au survol */
+#widget-hamburger:hover {
+    background: #2196f3 !important;
+    color: #fff !important;
+    border-color: #2196f3 !important;
+    box-shadow: 0 2px 12px rgba(33,150,243,0.22) !important;
+    transform: scale(1.7) !important;
+}
 </style>
 <script>
 const container = document.getElementById('weather-widget-container');
 let offsetX, offsetY, isDragging = false;
+
+// Restaurer la position sauvegardée
+const savedPos = localStorage.getItem('weatherWidgetPos');
+if (savedPos) {
+    const pos = JSON.parse(savedPos);
+    container.style.left = pos.left;
+    container.style.top = pos.top;
+}
 
 container.addEventListener('mousedown', function(e) {
     isDragging = true;
@@ -183,13 +207,33 @@ container.addEventListener('mousedown', function(e) {
 
 document.addEventListener('mousemove', function(e) {
     if (isDragging) {
-        container.style.left = (e.clientX - offsetX) + 'px';
-        container.style.top = (e.clientY - offsetY) + 'px';
+        const left = (e.clientX - offsetX) + 'px';
+        const top = (e.clientY - offsetY) + 'px';
+        container.style.left = left;
+        container.style.top = top;
+        // Sauvegarder la position à chaque déplacement
+        localStorage.setItem('weatherWidgetPos', JSON.stringify({left, top}));
     }
 });
 
 document.addEventListener('mouseup', function() {
     isDragging = false;
     document.body.style.userSelect = '';
+});
+
+// Gestion du menu hamburger
+const hamburger = document.getElementById('widget-hamburger');
+const menu = document.getElementById('widget-menu');
+
+hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    menu.style.display = (menu.style.display === 'none' || menu.style.display === '') ? 'block' : 'none';
+});
+
+// Fermer le menu si on clique ailleurs
+document.addEventListener('click', function(e) {
+    if (menu.style.display === 'block' && e.target !== hamburger && !menu.contains(e.target)) {
+        menu.style.display = 'none';
+    }
 });
 </script>
