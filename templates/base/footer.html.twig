@@ -1,91 +1,149 @@
-<footer class="footer">
-  <div class="footer-container">
-    
-    <!-- Bloc équipe -->
-    <div class="footer-col">
-      <h4>🧑‍🌾 L’équipe</h4>
+{# templates/partials/footer.html.twig - Footer clair en cards scindées #}
+<style>
+  .ac-footer{
+    --bg:#9BA97E;     /* fond olive clair */
+    --ink:#222;       /* texte sombre */
+    --muted:#444;
+    --accent:#8B2E2E; /* rouge brique */
+    --card:#ffffffcc; /* cartes semi-transparentes */
+    --stroke:rgba(0,0,0,.12);
+    background:var(--bg);
+    color:var(--ink);
+    margin-top:3rem;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  }
+
+  .footer-grid{
+    padding:2rem 1rem;
+    display:grid;
+    gap:1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+
+  .f-card{
+    background:var(--card);
+    border:1px solid var(--stroke);
+    border-radius:12px;
+    padding:1rem 1.2rem;
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+    box-shadow:0 2px 6px rgba(0,0,0,.08);
+    transition:transform .15s ease;
+  }
+  .f-card:hover{ transform:translateY(-3px); }
+
+  .f-card h4{
+    margin:0;
+    font-size:1.05rem;
+    font-weight:700;
+    border-bottom:1px solid var(--stroke);
+    padding-bottom:.4rem;
+  }
+  .f-card ul{ list-style:none; margin:0; padding:0; display:grid; gap:.4rem; }
+  .f-card a{ color:var(--ink); text-decoration:none; }
+  .f-card a:hover{ color:var(--accent); }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:.4rem; }
+  .chip{
+    background:#fff;
+    border:1px solid var(--stroke);
+    border-radius:999px;
+    padding:.35rem .75rem;
+    font-size:.9rem;
+    font-weight:600;
+  }
+
+  .partners img{ max-height:40px; width:auto; }
+
+  .footer-bottom{
+    border-top:1px solid var(--stroke);
+    background:rgba(255,255,255,.45);
+    padding:.85rem 1rem;
+    font-size:.9rem;
+    display:flex; flex-wrap:wrap; gap:1rem; justify-content:space-between;
+  }
+  .langs{ display:flex; gap:.4rem; }
+  .lang{ background:#fff; border:1px solid var(--stroke); border-radius:4px; padding:.2rem .5rem; }
+</style>
+
+<footer class="ac-footer">
+  <div class="footer-grid">
+    <!-- Bloc 1 : Technologies -->
+    <div class="f-card">
+      <h4>Technologies utilisées</h4>
+      <div class="chips">
+        <span class="chip">Symfony</span>
+        <span class="chip">MySQL</span>
+        <span class="chip">Bootstrap</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">Discord</span>
+      </div>
+    </div>
+
+    <!-- Bloc 2 : Support -->
+    <div class="f-card">
+      <h4>Support &amp; Aide</h4>
       <ul>
-        <li><strong>Jeremy</strong> – Fondateur & Développeur principal</li>
-        <li><em>Créateur d’Agri-Cult</em>, en charge de la vision globale, du gameplay et du projet.</li>
+        <li><a href="#">Nous contacter</a></li>
+        <li><a href="#">FAQ &amp; Règles du jeu</a></li>
+        <li><a href="#">Soumettre un bug</a></li>
+        <li><a href="#">Forum</a></li>
       </ul>
     </div>
 
-    <!-- Bloc collaborateurs -->
-    <div class="footer-col">
-      <h4>🧠 Collaborateurs réguliers</h4>
+    <!-- Bloc 3 : Équipe -->
+    <div class="f-card">
+      <h4>L’équipe</h4>
       <ul>
-        <li><strong>Mr Denis</strong> – Professeur, pilier du projet</li>
-        <li><strong>Amélie</strong> – Structuration des fichiers Word</li>
-        <li><strong>Célia</strong> – Logo & icônes</li>
-        <li><strong>Prescillia</strong> – Animation Facebook, TikTok & Instagram</li>
-        <li><strong>Testeurs alpha</strong> – Joueurs sélectionnés</li>
+        <li>Jeremy — Fondateur</li>
+        <li>Mr Denis — Collaborateur</li>
+        <li>Amélie, Célia, Prescillia</li>
+        <li>Testeurs alpha</li>
       </ul>
     </div>
 
-    <!-- Bloc remerciements -->
-    <div class="footer-col">
-      <h4>🙏 Remerciements</h4>
-      <p>Merci aux joueurs passionnés qui partagent leurs idées, à ChatGPT pour l’assistance rédactionnelle et technique, et à nos partenaires.</p>
+    <!-- Bloc 4 : Accès joueur -->
+    <div class="f-card">
+      <h4>Accès joueur</h4>
+      <ul>
+        <li><a href="#">Se connecter</a></li>
+        <li><a href="#">S’inscrire</a></li>
+        <li><a href="#">Version mobile</a></li>
+        <li><a href="#">Version tablette</a></li>
+      </ul>
     </div>
 
-    <!-- Bloc techno -->
-    <div class="footer-col">
-      <h4>⚙️ Technologies utilisées</h4>
+    <!-- Bloc 5 : Communauté -->
+    <div class="f-card">
+      <h4>Communauté</h4>
       <ul>
-        <li>Symfony – Backend du site et du jeu</li>
-        <li>MySQL – Base de données</li>
-        <li>Bootstrap 5 – Interface responsive</li>
-        <li>JavaScript / jQuery – Fonctions dynamiques</li>
-        <li>Discord – Communauté & support</li>
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">Twitter/X</a></li>
+        <li><a href="#">YouTube</a></li>
+        <li><a href="#">Discord</a></li>
       </ul>
+    </div>
+
+    <!-- Bloc 6 : Partenaires -->
+    <div class="f-card">
+      <h4>Partenaires</h4>
+      <div class="partners">
+        <a href="#"><img src="/images/partners/partner-1.png" alt="Partenaire 1"></a>
+        <a href="#"><img src="/images/partners/partner-2.png" alt="Partenaire 2"></a>
+      </div>
     </div>
   </div>
 
   <div class="footer-bottom">
-    <p>© {{ "now"|date("Y") }} Agri-Cult – Tous droits réservés.</p>
+    <div>
+      © {{ "now"|date("Y") }} Agri-Cult — Merci aux joueurs et à la communauté
+    </div>
+    <div class="langs">
+      <span class="lang">FR</span>
+      <span class="lang">DE</span>
+      <span class="lang">EN</span>
+    </div>
   </div>
 </footer>
-
-<style>
-  .footer {
-    background: #2e7d32; /* Vert foncé Agri-Cult */
-    color: #f1fdf1;
-    padding: 40px 20px 20px;
-    margin-top: 40px;
-  }
-  .footer-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-    gap: 24px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  .footer-col h4 {
-    color: #fff;
-    font-size: 1.05rem;
-    margin-bottom: 12px;
-    border-bottom: 2px solid #4CAF50;
-    display: inline-block;
-    padding-bottom: 4px;
-  }
-  .footer-col ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .footer-col li {
-    margin: 4px 0;
-  }
-  .footer-col p {
-    font-size: .9rem;
-    line-height: 1.4;
-  }
-  .footer-bottom {
-    border-top: 1px solid #4CAF50;
-    text-align: center;
-    margin-top: 24px;
-    padding-top: 12px;
-    font-size: .85rem;
-    color: #d4eed4;
-  }
-</style>
