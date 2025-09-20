@@ -1,5 +1,8 @@
 <div id="weather-widget-container" style="position: absolute; top: 50px; left: 50px;">
-    <div class="weather-widget">
+    <div class="weather-widget" style="position: relative;">
+        <span id="widget-hamburger" style="position: absolute; top: 4px; left: 4px; font-size: 13px; cursor: pointer; z-index: 1100; background: rgba(255,255,255,0.7); border-radius: 3px; padding: 1px 3px;">
+            &#9776;
+        </span>
     <div class="weather-header">
         <h3 class="weather-location">{{ zone|capitalize }}</h3>
         <div class="weather-time">{{ serverTime.formattedDateTime }}</div>
@@ -142,6 +145,28 @@
 }
 .weather-widget:hover {
     cursor: move;
+}
+.weather-widget .hamburger-icon {
+    position: absolute !important;
+    top: 4px !important;
+    left: 4px !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    z-index: 1100 !important;
+    background: #f8f9fa !important;
+    color: #333 !important;
+    border-radius: 3px !important;
+    padding: 2px 5px !important;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.12) !important;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.2s !important;
+    border: 1px solid #e0e0e0 !important;
+}
+.weather-widget .hamburger-icon:hover {
+    background: #2196f3 !important;
+    color: #fff !important;
+    box-shadow: 0 2px 12px rgba(33,150,243,0.22) !important;
+    border-color: #2196f3 !important;
+    transform: rotate(20deg) scale(1.15) !important;
 }
 </style>
 <script>
