@@ -1,4 +1,5 @@
-<div class="weather-widget">
+<div id="weather-widget-container" style="position: absolute; top: 50px; left: 50px;">
+    <div class="weather-widget">
     <div class="weather-header">
         <h3 class="weather-location">{{ zone|capitalize }}</h3>
         <div class="weather-time">{{ serverTime.formattedDateTime }}</div>
@@ -97,4 +98,73 @@
             Données météo non disponibles pour le moment.
         </div>
     {% endif %}
+    <!-- contenu du widget météo -->
+    </div>
 </div>
+<style>
+.weather-widget {
+    font-size: 0.75em;
+    width: 200px;
+    min-width: 140px;
+    max-width: 220px;
+    padding: 4px 6px;
+}
+.weather-header h3,
+.weather-header .weather-time {
+    margin: 0;
+    padding: 0;
+    line-height: 1.1;
+    font-size: 1em;
+}
+.weather-main {
+    padding: 0;
+    margin: 0;
+}
+.weather-summary {
+    margin-bottom: 2px;
+}
+.weather-temp {
+    font-size: 1.1em;
+    margin-bottom: 2px;
+}
+.weather-details {
+    margin: 0;
+    padding: 0;
+}
+.weather-details li {
+    padding: 0 0 2px 0;
+    margin: 0;
+    font-size: 0.95em;
+}
+#weather-widget-container {
+    min-width: 180px;
+    max-width: 240px;
+}
+.weather-widget:hover {
+    cursor: move;
+}
+</style>
+<script>
+const container = document.getElementById('weather-widget-container');
+let offsetX, offsetY, isDragging = false;
+
+container.addEventListener('mousedown', function(e) {
+    isDragging = true;
+    offsetX = e.clientX - container.offsetLeft;
+    offsetY = e.clientY - container.offsetTop;
+    container.style.zIndex = 1000;
+    document.body.style.userSelect = 'none';
+});
+
+document.addEventListener('mousemove', function(e) {
+    if (isDragging) {
+        container.style.left = (e.clientX - offsetX) + 'px';
+        container.style.top = (e.clientY - offsetY) + 'px';
+    }
+});
+
+document.addEventListener('mouseup', function() {
+    isDragging = false;
+    document.body.style.userSelect = '';
+});
+</script>
