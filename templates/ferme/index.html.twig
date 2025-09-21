@@ -3,6 +3,114 @@
 
 {% block body %}
 <style>
+  /* Centrage de la card d’accueil */
+  .ferme-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 60vh;
+  }
+  .card.accueil {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 520px;
+  }
+  .card.accueil > * {
+    text-align: center;
+    width: 100%;
+  }
+  /* Card d’accueil Agri-Cult */
+  .card.accueil {
+    background: var(--mint);
+    border: 2px solid var(--green);
+    border-left: 12px solid var(--green-600);
+    border-radius: 22px;
+    box-shadow: 0 6px 24px rgba(70,176,88,0.10);
+    padding: 32px 28px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.accueil h1 {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--green-600);
+    margin-bottom: 8px;
+    letter-spacing: -1px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .card.accueil h1 .wave {
+    display: inline-block;
+    animation: wave 1.2s infinite linear;
+    transform-origin: 70% 70%;
+  }
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    20% { transform: rotate(-18deg); }
+    40% { transform: rotate(12deg); }
+    60% { transform: rotate(-8deg); }
+    80% { transform: rotate(8deg); }
+  }
+  .card.accueil .meta {
+    color: var(--ink);
+    font-size: 1.08rem;
+    margin-bottom: 16px;
+    opacity: 0.92;
+  }
+  .card.accueil .infos-rapides {
+    margin-bottom: 18px;
+    font-size: 1.05rem;
+    color: var(--green-600);
+    font-weight: 600;
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card.accueil .badges {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 22px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .card.accueil .badge {
+    background: #fff;
+    border-radius: 999px;
+    border: 2px solid var(--line);
+    font-size: 1rem;
+    color: var(--ink);
+    font-weight: 700;
+    padding: 6px 18px;
+    box-shadow: 0 2px 8px rgba(70,176,88,0.07);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card.accueil .actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  .card.accueil .btn {
+    background: linear-gradient(90deg, var(--green-600) 60%, var(--green) 100%);
+    color: #fff;
+    font-weight: 800;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-size: 1.08rem;
+    box-shadow: 0 2px 8px rgba(70,176,88,0.10);
+    border: none;
+    text-decoration: none;
+    transition: background .2s, box-shadow .2s;
+  }
+  .card.accueil .btn:hover {
+    background: var(--green-600);
+    box-shadow: 0 4px 16px rgba(70,176,88,0.18);
+  }
   /* Palette Agri-Cult */
   :root{
     --green:#46b058; --green-600:#2f8a3f;
@@ -10,7 +118,18 @@
     --warn:#ffb74d; --danger:#ef5350; --info:#42a5f5;
   }
 
-  .ferme-wrap{ max-width:980px; margin:26px auto; padding:0 14px; }
+  .ferme-wrap{
+    max-width:980px;
+    margin:26px auto;
+    padding:0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 60vh;
+    box-sizing: border-box;
+    width: 100%;
+  }
   .card{
     background:#fff; border:1px solid var(--line); border-left:10px solid var(--green);
     border-radius:16px; padding:18px 20px; margin:16px 0; box-shadow:0 4px 14px rgba(0,0,0,.06);
@@ -63,6 +182,50 @@
 </style>
 
 <div class="ferme-wrap">
+  <!-- Card d’accueil -->
+  <section class="card accueil">
+    <h1><span class="wave">👋</span> Bienvenue, JEREMY30</h1>
+    <p class="meta">Tableau de bord de votre exploitation.</p>
+    <div class="infos-rapides">
+      <span>Saison : <strong>Printemps</strong></span>
+      <span>Localisation : <strong>Normandie — Gavray-sur-Sienne</strong></span>
+    </div>
+    <div class="badges">
+      <span class="badge">🌱 Parcelles actives <strong>12</strong></span>
+      <span class="badge">🐄 Animaux <strong>85</strong></span>
+      <span class="badge">🚜 Machines <strong>5</strong></span>
+      <span class="badge">💶 Trésorerie <strong>24 500 €</strong></span>
+    </div>
+    <div class="actions">
+      <a href="#" class="btn" id="openDashboardModal">Voir le tableau de bord complet</a>
+    </div>
+  </section>
+
+  <!-- Modal Tableau de bord complet (structure, non visible par défaut) -->
+  <div id="dashboardModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(31,42,36,0.45); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:18px; max-width:540px; width:96vw; margin:auto; box-shadow:0 8px 32px rgba(0,0,0,.18); padding:32px 28px; position:relative;">
+      <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:4px; text-align:center;">Résumé détaillé de votre ferme</h2>
+      <div style="text-align:center; color:var(--ink); margin-bottom:18px;">Vue d’ensemble des données actuelles</div>
+      <hr style="margin:12px 0 18px 0;">
+      <!-- Ajoutez ici le contenu détaillé du modal -->
+      <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+        <button onclick="document.getElementById('dashboardModal').style.display='none'" style="padding:8px 16px; border-radius:8px; background:#eee; color:var(--ink); border:none; font-weight:700;">Fermer</button>
+      </div>
+      <span style="position:absolute; top:12px; right:18px; font-size:1.5rem; cursor:pointer; color:var(--danger);" onclick="document.getElementById('dashboardModal').style.display='none'">&times;</span>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      var btn = document.getElementById('openDashboardModal');
+      if(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          document.getElementById('dashboardModal').style.display = 'flex';
+        });
+      }
+    });
+  </script>
 
   <!-- Titre / header -->
   <section class="card">
