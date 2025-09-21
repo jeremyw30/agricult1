@@ -22,62 +22,58 @@ class RegisterUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-        ->add('lastname', TextType::class, [
-            'label' => 'Nom',
-            'required'=>false,
-                'constraints' => [new NotBlank(["message"=>"Le nom ne peut pas être vide."]), 
-                new Length(['min' => 2, 'max' => 30,'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères.',
-                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',]) ],
-                
-             'attr' => ['placeholder' => 'Entrez votre nom']
-        ])
         ->add('firstname', TextType::class, [
             'label' => 'Prénom',
             'required'=>false,
-                'constraints' => [new NotBlank(["message"=>"Le prénom ne peut pas être vide."]), 
+            'constraints' => [new NotBlank(["message"=>"Le prénom ne peut pas être vide."]),
                 new Length(['min' => 2, 'max' => 30,'minMessage' => 'Le prénom doit comporter au moins {{ limit }} caractères.',
                         'maxMessage' => 'Le prénom ne peut pas dépasser {{ limit }} caractères.',]) ],
-                
             'attr' => ['placeholder' => 'Entrez votre prénom']
+        ])
+        ->add('lastname', TextType::class, [
+            'label' => 'Nom',
+            'required'=>false,
+            'constraints' => [new NotBlank(["message"=>"Le nom ne peut pas être vide."]),
+                new Length(['min' => 2, 'max' => 30,'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères.',
+                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',]) ],
+            'attr' => ['placeholder' => 'Entrez votre nom']
         ])
         ->add('surname', TextType::class, [
             'label' => 'Pseudo',
             'required'=>false,
-                'constraints' => [new NotBlank(["message"=>"Le pseudo ne peut pas être vide."]), 
+            'constraints' => [new NotBlank(["message"=>"Le pseudo ne peut pas être vide."]),
                 new Length(['min' => 2, 'max' => 30,'minMessage' => 'Le pseudo doit comporter au moins {{ limit }} caractères.',
                         'maxMessage' => 'Le pseudo ne peut pas dépasser {{ limit }} caractères.',]) ],
-                
             'attr' => ['placeholder' => 'Entrez votre pseudo']
         ])
         ->add('email', EmailType::class, [
-                'label' => 'Email',
-                'required' => true,
-                'constraints' => [
-                    new NotBlank(["message" => "L'email ne peut pas être vide."]),
-                    new \Symfony\Component\Validator\Constraints\Email([
-                        'message' => 'L\'adresse email "{{ value }}" n\'est pas valide.',
-                        'mode' => 'html5'  // Change to strict to enforce proper validation
-                    ])
-                ],
-                'attr' => [
-                    'placeholder' => 'Saisir votre Email',
-                    'pattern' => '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
-                ]   
-            ])
+            'label' => 'Email',
+            'required' => true,
+            'constraints' => [
+                new NotBlank(["message" => "L'email ne peut pas être vide."]),
+                new \Symfony\Component\Validator\Constraints\Email([
+                    'message' => 'L\'adresse email "{{ value }}" n\'est pas valide.',
+                    'mode' => 'html5'
+                ])
+            ],
+            'attr' => [
+                'placeholder' => 'Saisir votre Email',
+                'pattern' => '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$'
+            ]
+        ])
         ->add('plainPassword', RepeatedType::class, [
             'type' => PasswordType::class,
             'required'=>false,
             'constraints' => [
-                    new NotBlank([
-                        'message' => 'Veuillez entrer un mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
+                new NotBlank([
+                    'message' => 'Veuillez entrer un mot de passe',
+                ]),
+                new Length([
+                    'min' => 6,
+                    'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
+                    'max' => 4096,
+                ]),
+            ],
             'first_options'  => [
                 'label' => 'Mot de passe',
                 'attr' => ['placeholder' => 'Entrez votre mot de passe (6 caractères minimum)',"id"=>"password"],
@@ -90,12 +86,11 @@ class RegisterUserType extends AbstractType
             'invalid_message' => 'Les mots de passe ne correspondent pas',
             'mapped' => false,
         ])
-        
         ->add('zone', ChoiceType::class, [
             'label' => 'Choisissez votre région de départ',
             'required' => true,
-            'expanded' => true, // Afficher comme boutons radio
-            'multiple' => false, // Une seule sélection possible
+            'expanded' => true,
+            'multiple' => false,
             'choices' => [
                 'autun' => 'autun',
                 'gavray' => 'gavray',
@@ -110,11 +105,9 @@ class RegisterUserType extends AbstractType
                 return ['class' => 'radio-custom'];
             },
         ])
-        
         ->add('submit', SubmitType::class, [
             'label' => 'Inscription', 'attr' => ['class' => ' btn btn-agri ']
-        ])  
-
+        ])
         ;
     }
 

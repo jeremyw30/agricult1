@@ -11,67 +11,15 @@
                 {{ form_widget(form.surname, {'attr': {'class': 'form-control'}}) }}
                 {{ form_errors(form.surname) }}
             </div>
-            <div class="form-group">
-                {{ form_label(form.email) }}
-                {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
-            {{ form_errors(form.email) }}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.plainPassword.first) }}
-                <div class="input-group">
-                    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control' }}) }}
-                    <div class="input-group-append">
-                        <span class="input-group-text" id="togglePassword">
-                            <i class="fa fa-eye"></i>
-                        </span>
-                    </div>
-                </div>
-                {{ form_errors(form.plainPassword.first) }}
-            </div>
-            <div class="form-group">
-                {{ form_label(form.plainPassword.second) }}
-                {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
-            </div>
-           <section class="choix-region mt-4">
-    <h2>🌍 Choisissez Votre Région de Départ</h2>
-    <p>
-        Deux zones sont disponibles pour commencer votre aventure agricole :
-    </p>
-    <div class="zone-options">
-        {% for choice in form.zone %}
-        <div class="zone-option mb-3 text-center">
-            <div class="radio-container mb-2">
-                {{ form_widget(choice) }}
-            </div>
-            <label for="{{ choice.vars.id }}" class="zone-label d-block">
-            {% if choice.vars.value == 'autun' %}
-                <strong class="region-title">🌻 Bourgogne</strong>
-                <p class="region-desc">Une région aux grandes plaines fertiles, idéale pour les grandes cultures. 
-                Vous débuterez près de <em>la ville d'Autun</em>, dans un climat plus sec mais propice aux bons rendements.</p>
-            {% elseif choice.vars.value == 'gavray' %}
-                <strong class="region-title">🌾 Normandie</strong>
-                <p class="region-desc">Une région verte et humide, parfaite pour l'élevage et les cultures fourragères. 
-                Vous vous installerez près de <em>Gavray-sur-Sienne</em>, au cœur d'un paysage bocager traditionnel.</p>
-            {% endif %}
-            </label>
-        </div>
-        {% endfor %}
-    </div>
-
-    <p class="text-muted">
-        🌦️ Chaque région a son propre climat, ses avantages, et ses défis. À vous de choisir la stratégie qui vous correspond !
-    </p>
-
-    {{ form_errors(form.zone) }}
-</section>
-
-
-            {{ form_end(form) }}
-    </div>
-</div>
-{% endblock %}
-
-{% block javascripts %}
+                        {{ form_start(form) }}
+                        {{ form_row(form.firstname) }}
+                        {{ form_row(form.lastname) }}
+                        {{ form_row(form.surname) }}
+                        {{ form_row(form.email) }}
+                        {{ form_row(form.plainPassword) }}
+                        {{ form_row(form.zone) }}
+                        {{ form_row(form.submit) }}
+                        {{ form_end(form) }}
     {{ parent() }}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
