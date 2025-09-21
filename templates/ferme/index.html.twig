@@ -3,6 +3,23 @@
 
 {% block body %}
 <style>
+  .img-localisation {
+    transition: transform 0.22s cubic-bezier(.4,2,.3,1), box-shadow 0.22s;
+    cursor: pointer;
+  }
+  .img-localisation:hover {
+  transform: scale(4.0);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  z-index: 2;
+  }
+  /* Masquer le conteneur principal pour la page ferme */
+  .main-container {
+    display: contents !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+  }
   /* Centrage de la card d’accueil */
   .ferme-wrap {
     display: flex;
@@ -14,7 +31,8 @@
   .card.accueil {
     margin-left: auto;
     margin-right: auto;
-    max-width: 520px;
+      /* max-width nettoyé, une seule valeur */
+      max-width: 1800px;
   }
   .card.accueil > * {
     text-align: center;
@@ -22,15 +40,15 @@
   }
   /* Card d’accueil Agri-Cult */
   .card.accueil {
-    background: var(--mint);
-    border: 2px solid var(--green);
-    border-left: 12px solid var(--green-600);
-    border-radius: 22px;
-    box-shadow: 0 6px 24px rgba(70,176,88,0.10);
-    padding: 32px 28px;
-    margin-bottom: 32px;
-    position: relative;
-    overflow: hidden;
+  background: var(--mint);
+  border: 2px solid var(--green);
+  border-left: 12px solid var(--green-600);
+  border-radius: 22px;
+  box-shadow: 0 6px 24px rgba(70,176,88,0.10);
+  padding: 32px 28px;
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
   }
   .card.accueil h1 {
     font-size: 2.2rem;
@@ -41,6 +59,9 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    justify-content: center;
+    width: 100%;
+    text-align: center;
   }
   .card.accueil h1 .wave {
     display: inline-block;
@@ -54,11 +75,7 @@
     60% { transform: rotate(-8deg); }
     80% { transform: rotate(8deg); }
   }
-  .card.accueil .meta {
-    color: var(--ink);
-    font-size: 1.08rem;
-    margin-bottom: 16px;
-    opacity: 0.92;
+
   }
   .card.accueil .infos-rapides {
     margin-bottom: 18px;
@@ -78,17 +95,37 @@
     flex-wrap: wrap;
   }
   .card.accueil .badge {
-    background: #fff;
+    background: linear-gradient(90deg, #eaf7ee 60%, #d9eadf 100%);
     border-radius: 999px;
     border: 2px solid var(--line);
-    font-size: 1rem;
-    color: var(--ink);
-    font-weight: 700;
-    padding: 6px 18px;
-    box-shadow: 0 2px 8px rgba(70,176,88,0.07);
+    font-size: 1.08rem;
+    color: var(--green-600);
+    font-weight: 800;
+    padding: 8px 22px;
+    box-shadow: 0 2px 18px 0 rgba(66,165,245,0.12), 0 0 8px 2px #42a5f533;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    letter-spacing: 1px;
+    text-shadow: 0 0 8px #42a5f5aa, 0 0 2px #fff;
+    transition: box-shadow .2s, background .2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card.accueil .badge strong {
+    font-family: 'SFMono-Regular', 'Consolas', 'Roboto Mono', monospace;
+    font-size: 1.18em;
+    color: #1f2a24;
+    background: linear-gradient(90deg, #fff 60%, #eaf7ee 100%);
+    border-radius: 6px;
+    padding: 2px 8px;
+    box-shadow: 0 0 8px #42a5f544;
+    text-shadow: 0 0 6px #42a5f588;
+    margin-left: 4px;
+    letter-spacing: 2px;
+    font-weight: 900;
+    transition: background .2s;
+  }
   }
   .card.accueil .actions {
     margin-top: 10px;
@@ -118,17 +155,16 @@
     --warn:#ffb74d; --danger:#ef5350; --info:#42a5f5;
   }
 
-  .ferme-wrap{
-    max-width:980px;
-    margin:26px auto;
-    padding:0;
+  .ferme-wrap {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    min-height: 60vh;
+    justify-content: center;
+    min-height: 80vh;
+    width: 100vw;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
-    width: 100%;
   }
   .card{
     background:#fff; border:1px solid var(--line); border-left:10px solid var(--green);
@@ -182,20 +218,41 @@
 </style>
 
 <div class="ferme-wrap">
-  <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
+                            <!-- Card d’accueil -->
   <section class="card accueil">
     <h1><span class="wave">👋</span> Bienvenue, JEREMY30</h1>
-    <p class="meta">Tableau de bord de votre exploitation.</p>
-    <div class="infos-rapides">
-      <span>Saison : <strong>Printemps</strong></span>
-      <span>Localisation : <strong>Normandie — Gavray-sur-Sienne</strong></span>
+    <div class="infos-rapides panneau-infos">
+      <span class="info-item localisation">
+  <img src="/assets/images/gavraysursienne.jpg" alt="gavraysursienne" class="img-localisation" style="height:60px; width:auto; vertical-align:middle; margin-right:14px; background:#fff; border:1.5px solid #bbb; border-radius:12px; padding:4px; box-shadow:0 4px 16px rgba(0,0,0,0.14);">
+  <span class="ico" style="font-size:1.3em; margin-right:6px;">📍</span>
+        <span class="label">Localisation</span> : <strong>Normandie — Gavray-sur-Sienne</strong>
+      </span>
+      <span class="info-item saison">
+        <span class="ico" style="font-size:1.3em; margin-right:6px;">🌦️</span>
+        <span class="label">Saison</span> : <strong>Printemps</strong>
+      </span>
     </div>
-    <div class="badges">
+  
+  <div class="badges" style="margin-top:100px;">
       <span class="badge">🌱 Parcelles actives <strong>12</strong></span>
       <span class="badge">🐄 Animaux <strong>85</strong></span>
       <span class="badge">🚜 Machines <strong>5</strong></span>
       <span class="badge">💶 Trésorerie <strong>24 500 €</strong></span>
     </div>
+
     <div class="actions">
       <a href="#" class="btn" id="openDashboardModal">Voir le tableau de bord complet</a>
     </div>
@@ -233,17 +290,7 @@
     <p class="meta">Tableau de bord de votre exploitation.</p>
   </section>
 
-  <!-- Localisation (VIDE) -->
-  <section class="card local">
-    <span class="ribbon">📍 Localisation</span>
-    <p class="empty" style="margin-top:10px">
-      Aucune information de localisation enregistrée pour l’instant.
-      (Département, Zone, Région climatique…)
-    </p>
-    <div class="actions">
-      <a href="#" class="btn">Renseigner la localisation</a>
-    </div>
-  </section>
+  
 
   <!-- Bloc-notes (VIDE) -->
   <section class="card notes">
