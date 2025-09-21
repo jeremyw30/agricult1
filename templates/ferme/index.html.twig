@@ -4,13 +4,20 @@
 {% block body %}
 <style>
   .img-localisation {
-    transition: transform 0.22s cubic-bezier(.4,2,.3,1), box-shadow 0.22s;
-    cursor: pointer;
+  transition: box-shadow 0.33s;
+  cursor: pointer;
   }
   .img-localisation:hover {
-  transform: scale(5.0);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  z-index: 2;
+    animation: bounce-zoom 0.7s cubic-bezier(.22,1.5,.36,1) forwards;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 2;
+  }
+  @keyframes bounce-zoom {
+    0% { transform: scale(1); }
+    60% { transform: scale(5.3); }
+    80% { transform: scale(4.7); }
+    100% { transform: scale(5.0); }
+  }
   }
   /* Masquer le conteneur principal pour la page ferme */
   .main-container {
@@ -139,7 +146,10 @@
   .card.accueil .actions {
     margin-top: 10px;
     display: flex;
-    justify-content: center;
+    justify-content: center !important;
+    align-items: center;
+    width: 100%;
+    text-align: center !important;
   }
   .card.accueil .btn {
     background: linear-gradient(90deg, var(--green-600) 60%, var(--green) 100%);
@@ -269,11 +279,98 @@
 
   <!-- Modal Tableau de bord complet (structure, non visible par défaut) -->
   <div id="dashboardModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(31,42,36,0.45); z-index:9999; align-items:center; justify-content:center;">
-    <div style="background:#fff; border-radius:18px; max-width:540px; width:96vw; margin:auto; box-shadow:0 8px 32px rgba(0,0,0,.18); padding:32px 28px; position:relative;">
-      <h2 style="font-size:1.6rem; font-weight:800; margin-bottom:4px; text-align:center;">Résumé détaillé de votre ferme</h2>
-      <div style="text-align:center; color:var(--ink); margin-bottom:18px;">Vue d’ensemble des données actuelles</div>
-      <hr style="margin:12px 0 18px 0;">
+  <div style="background:linear-gradient(135deg,#222 60%,#444 100%); border-radius:38px; max-width:820px; width:98vw; margin:auto; box-shadow:0 12px 48px rgba(0,0,0,.28), 0 0 0 8px #222a; padding:24px 32px; position:relative; max-height:540px; overflow-y:auto; border:6px solid #222; display:flex; flex-direction:column; align-items:center; backdrop-filter: blur(12px) brightness(1.1); border-top:10px solid #ffe082; border-bottom:10px solid #81c784;">
+      <div style="width:100%; display:flex; flex-direction:column; align-items:center;">
+        <div style="width:100%; display:flex; justify-content:center; align-items:center; gap:18px; margin-bottom:8px;">
+          <span style="font-size:2.6em; color:#ffe082; text-shadow:0 2px 12px #222, 0 0 32px #ffe08299;">🚜</span>
+          <h2 style="font-size:2.1rem; font-weight:900; margin-bottom:0; color:#ffe082; text-shadow:0 2px 12px #222, 0 0 32px #ffe08299; letter-spacing:2px; font-family:'Orbitron', 'Roboto', sans-serif;">COCKPIT PRO</h2>
+        </div>
+        <div style="width:100%; display:flex; justify-content:center; align-items:center; gap:18px; margin-bottom:12px;">
+          <!-- Jauge animée SVG carburant -->
+          <svg id="fuelGauge" width="80" height="80" viewBox="0 0 80 80" style="filter:drop-shadow(0 2px 8px #222a);">
+            <circle cx="40" cy="40" r="34" fill="#222" stroke="#ffe082" stroke-width="7" />
+            <circle cx="40" cy="40" r="28" fill="#444" stroke="#42a5f5" stroke-width="5" stroke-dasharray="176" stroke-dashoffset="40" style="transition:stroke-dashoffset 1s;" />
+            <text id="fuelText" x="40" y="46" text-anchor="middle" font-size="1.3em" fill="#ffe082" font-family='Orbitron'>65%</text>
+            <text x="40" y="70" text-anchor="middle" font-size="0.9em" fill="#81c784" font-family='Orbitron'>Carburant</text>
+          </svg>
+          <!-- Affichage digital -->
+          <div style="background:rgba(0,0,0,0.45); border-radius:12px; padding:8px 18px; color:#81c784; font-size:1.18em; font-family:'Orbitron', 'Roboto Mono', monospace; box-shadow:0 2px 8px #222a; letter-spacing:2px;">MODE PRO</div>
+        </div>
+        <!-- Mini-cards météo et parcelle -->
+        <div style="width:100%; display:flex; justify-content:center; gap:18px; margin-bottom:14px;">
+          <div style="background:rgba(66,165,245,0.13); border-radius:16px; padding:10px 18px; color:#fff; box-shadow:0 2px 8px #42a5f544; min-width:120px; text-align:center;">
+            <div style="font-size:1.5em;">🌦️</div>
+            <div style="font-size:1.08em; font-weight:700;">Météo</div>
+            <div style="font-size:0.95em;">12°C, Nuageux</div>
+            <div style="font-size:0.9em; color:#ffe082;">Vent: 18km/h</div>
+          </div>
+          <div style="background:rgba(70,176,88,0.13); border-radius:16px; padding:10px 18px; color:#fff; box-shadow:0 2px 8px #46b05844; min-width:120px; text-align:center;">
+            <div style="font-size:1.5em;">🌱</div>
+            <div style="font-size:1.08em; font-weight:700;">Parcelle</div>
+            <div style="font-size:0.95em;">P-12 — 8.4ha</div>
+            <div style="font-size:0.9em; color:#81c784;">Sol: limono-argileux</div>
+          </div>
+        </div>
+  <div style="text-align:center; color:#fff; margin-bottom:18px; font-size:1.08rem; opacity:0.85; text-shadow:0 2px 8px #222;">Tablette de bord — vue d’ensemble interactive</div>
+  <hr style="margin:12px 0 18px 0; border-color:#ffe082; box-shadow:0 2px 8px #ffe08299;">
+      </div>
       <!-- Ajoutez ici le contenu détaillé du modal -->
+      <!-- Section graphique cockpit PRO interactif -->
+      <div style="margin:18px 0 12px 0; text-align:center;">
+        <h3 style="font-size:1.08rem; font-weight:700; margin-bottom:8px; color:#ffe082; text-shadow:0 2px 8px #222, 0 0 32px #ffe08299; letter-spacing:1px;">📊 Tableau interactif</h3>
+        <div style="background:rgba(255,255,255,0.14); border-radius:22px; box-shadow:0 2px 18px #222a, 0 0 32px #ffe08233 inset; padding:10px 6px; margin-bottom:8px; max-width:340px; margin-left:auto; margin-right:auto; border:2px solid #ffe082; backdrop-filter: blur(4px);">
+          <div style="display:flex; justify-content:center; gap:8px; margin-bottom:8px;">
+            <button class="btn graph-option" data-type="rendement" style="background:#ffe082; color:#222; font-size:1em; padding:8px 16px; min-width:0; border-radius:14px; box-shadow:0 2px 8px #ffe08299, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; border:none; transition:transform 0.1s;">🌾 Rendement</button>
+            <button class="btn graph-option" data-type="cheptel" style="background:#81c784; color:#222; font-size:1em; padding:8px 16px; min-width:0; border-radius:14px; box-shadow:0 2px 8px #81c78499, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; border:none; transition:transform 0.1s;">🐄 Cheptel</button>
+            <button class="btn graph-option" data-type="finances" style="background:#ef5350; color:#fff; font-size:1em; padding:8px 16px; min-width:0; border-radius:14px; box-shadow:0 2px 8px #ef535099, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; border:none; transition:transform 0.1s;">💶 Finances</button>
+          </div>
+          <svg id="graph-svg" width="100%" height="110" viewBox="0 0 320 110" style="max-width:320px; background:rgba(255,255,255,0.18); border-radius:18px; box-shadow:0 2px 12px #ffe08233 inset; cursor:pointer;">
+            <rect x="0" y="0" width="320" height="110" rx="18" fill="#222" />
+            <polyline id="graph-polyline" points="20,90 60,70 100,50 140,60 180,30 220,50 260,20 300,40" fill="none" stroke="#ffe082" stroke-width="5" filter="url(#glow)" />
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
+                <feMerge>
+                  <feMergeNode in="coloredBlur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+            <text x="20" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Jan</text>
+            <text x="60" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Fév</text>
+            <text x="100" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Mar</text>
+            <text x="140" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Avr</text>
+            <text x="180" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Mai</text>
+            <text x="220" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Juin</text>
+            <text x="260" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Juil</text>
+            <text x="300" y="105" font-size="13" fill="#ffe082" font-family='Orbitron'>Août</text>
+          </svg>
+          <div id="graph-label" style="font-size:1.08rem; color:#ffe082; margin-top:8px; text-shadow:0 2px 8px #222, 0 0 32px #ffe08299; font-family:'Orbitron', 'Roboto', sans-serif;">Rendement — tendance mensuelle</div>
+        </div>
+      </div>
+
+    <!-- Alertes & tâches urgentes façon cockpit PRO -->
+        <div style="margin-bottom:14px;">
+    <h3 style="font-size:1.08rem; font-weight:700; color:#ef5350; margin-bottom:8px; text-shadow:0 2px 8px #222, 0 0 32px #ef535099; font-family:'Orbitron', 'Roboto', sans-serif;">⚠️ Alertes & tâches urgentes</h3>
+    <div style="background:rgba(239,83,80,0.18); border-radius:18px; border:2px solid #ef5350; padding:14px; margin-bottom:8px; color:#fff; box-shadow:0 2px 12px #ef535033 inset;">
+            <ul style="list-style:none; padding:0; margin:0;">
+              <li style="margin-bottom:6px;"><span style="font-size:1.2em; margin-right:6px;">🐄</span> Animaux à soigner</li>
+              <li style="margin-bottom:6px;"><span style="font-size:1.2em; margin-right:6px;">🌱</span> Parcelles à travailler</li>
+              <li style="margin-bottom:6px;"><span style="font-size:1.2em; margin-right:6px;">🔧</span> Machines indisponibles</li>
+            </ul>
+          </div>
+        </div>
+
+    <!-- Navigation rapide façon cockpit PRO -->
+        <div style="margin-bottom:14px; text-align:center;">
+    <h3 style="font-size:1.08rem; font-weight:700; color:#81c784; margin-bottom:8px; text-shadow:0 2px 8px #222, 0 0 32px #81c78499; font-family:'Orbitron', 'Roboto', sans-serif;">🧭 Navigation rapide</h3>
+          <div style="display:flex; flex-wrap:wrap; gap:18px; justify-content:center;">
+            <a href="#" class="btn" style="background:#42a5f5; color:#fff; border-radius:18px; font-size:1.12em; box-shadow:0 2px 12px #42a5f599, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; padding:12px 24px; border:none;">🌱 Parcelles</a>
+            <a href="#" class="btn" style="background:#81c784; color:#222; border-radius:18px; font-size:1.12em; box-shadow:0 2px 12px #81c78499, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; padding:12px 24px; border:none;">🐄 Animaux</a>
+            <a href="#" class="btn" style="background:#ef5350; color:#fff; border-radius:18px; font-size:1.12em; box-shadow:0 2px 12px #ef535099, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; padding:12px 24px; border:none;">🚜 Machines</a>
+            <a href="#" class="btn" style="background:#ffe082; color:#222; border-radius:18px; font-size:1.12em; box-shadow:0 2px 12px #ffe08299, 0 0 12px #222a; font-family:'Orbitron', 'Roboto', sans-serif; padding:12px 24px; border:none;">💶 Marché</a>
+          </div>
+        </div>
       <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
         <button onclick="document.getElementById('dashboardModal').style.display='none'" style="padding:8px 16px; border-radius:8px; background:#eee; color:var(--ink); border:none; font-weight:700;">Fermer</button>
       </div>
@@ -282,6 +379,7 @@
   </div>
 
   <script>
+    // Modal ouverture
     document.addEventListener('DOMContentLoaded', function() {
       var btn = document.getElementById('openDashboardModal');
       if(btn) {
@@ -290,16 +388,62 @@
           document.getElementById('dashboardModal').style.display = 'flex';
         });
       }
+
+      // Effet pression sur boutons tactiles
+      document.querySelectorAll('.btn').forEach(function(b){
+        b.addEventListener('mousedown',function(){b.style.transform='scale(0.96)';});
+        b.addEventListener('mouseup',function(){b.style.transform='scale(1)';});
+        b.addEventListener('mouseleave',function(){b.style.transform='scale(1)';});
+      });
+
+      // Graphique dynamique interactif
+      const graphData = {
+        rendement: {
+          points: '20,90 60,70 100,50 140,60 180,30 220,50 260,20 300,40',
+          color: '#ffe082',
+          label: 'Rendement — tendance mensuelle'
+        },
+        cheptel: {
+          points: '20,60 60,65 100,70 140,80 180,75 220,80 260,85 300,90',
+          color: '#81c784',
+          label: 'Cheptel — évolution mensuelle'
+        },
+        finances: {
+          points: '20,100 60,90 100,80 140,70 180,60 220,50 260,40 300,30',
+          color: '#ef5350',
+          label: 'Finances — solde mensuel'
+        }
+      };
+      function updateGraph(type) {
+        const polyline = document.getElementById('graph-polyline');
+        const label = document.getElementById('graph-label');
+        polyline.setAttribute('points', graphData[type].points);
+        polyline.setAttribute('stroke', graphData[type].color);
+        label.textContent = graphData[type].label;
+      }
+      document.querySelectorAll('.graph-option').forEach(function(btn){
+        btn.addEventListener('click',function(){
+          updateGraph(btn.getAttribute('data-type'));
+        });
+      });
+      document.getElementById('graph-svg').addEventListener('click',function(){
+        alert('Graphique interactif : cliquez sur une option pour changer la courbe.');
+      });
+
+      // Jauge carburant dynamique (exemple animée)
+      let fuelLevel = 65;
+      setInterval(function(){
+        fuelLevel = Math.max(10, Math.min(100, fuelLevel + (Math.random()*8-4)));
+        const circle = document.querySelector('#fuelGauge circle[stroke="#42a5f5"]');
+        const text = document.getElementById('fuelText');
+        const dashoffset = 176 - (fuelLevel/100)*176;
+        circle.setAttribute('stroke-dashoffset', dashoffset);
+        text.textContent = Math.round(fuelLevel) + '%';
+      }, 1800);
     });
   </script>
 
-  <!-- Titre / header -->
-  <section class="card">
-    <h1>Bienvenue JEREMY30</h1>
-    <p class="meta">Tableau de bord de votre exploitation.</p>
-  </section>
-
-  
+  <!-- Fin Modal -->
 
   <!-- Bloc-notes (VIDE) -->
   <section class="card notes">
