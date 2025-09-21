@@ -95,8 +95,8 @@ nav .container-fluid {
 .main-container {
 
   display: flex; /* Affiche les enfants (sidebar et contenu) en ligne */
-  width: 100%; /* Prend toute la largeur disponible */
-}
+
+} /* <-- Ajout de la fermeture de .main-container */
 
 /* ==========================================
  Barre latérale gauche
