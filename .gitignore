@@ -31,3 +31,34 @@ npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 /mercure/*.db
+
+# IDE files
+/.idea/
+/.vscode/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+/tmp/
+*.tmp
+*.temp
+
+# Logs
+*.log
+
+# Backup files
+*.bak
+*.backup
+
+# Security - Never commit these!
+*.pem
+*.key
+*.p12
+*.jks
+.env.production
+secrets.json
