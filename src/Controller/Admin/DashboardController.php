@@ -15,16 +15,26 @@ use Symfony\Component\Routing\Attribute\Route;
 final class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
-public function i    public function index(): Response
+    public function index(): Response
     {
-        // Option A: laisse l'accueil EasyAdmin S'IL Y A un menu (ce sera le cas juste après)
-        return parent::index();
-
         // Option B: pour rediriger direct vers Parcelles, dé-commente :
-        // $url = $this->container->get(AdminUrlGenerator::class)
-        //     ->setController(\App\Controller\Admin\ParcelleCrudController::class)
-        //     ->generateUrl();
-        // return $this->redirect($url);
+        $url = $this->container->get(AdminUrlGenerator::class)
+            ->setController(\App\Controller\Admin\ParcelleCrudController::class)
+            ->generateUrl();
+        return $this->redirect($url);
+        
+        // Option A: laisse l'accueil EasyAdmin S'IL Y A un menu (ce sera le cas juste après)
+        // return parent::index();
+        
+        // Custom dashboard content showing that menu is configured
+        // return $this->render('admin/dashboard.html.twig', [
+        //     'title' => 'Agri-Cult Admin Dashboard',
+        //     'available_sections' => [
+        //         'Parcelles' => 'Gestion des parcelles agricoles',
+        //         'Animaux' => 'Gestion du cheptel',
+        //         'Machines' => 'Gestion du matériel agricole'
+        //     ]
+        // ]);
     }
 
     public function configureDashboard(): Dashboard

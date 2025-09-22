@@ -30,7 +30,7 @@ class Animal
     private ?string $averageProductivity = null;
 
     #[ORM\Column(type: Types::STRING, enumType: HealthProfileEnum::class)]
-    private HealthProfileEnum $healthProfile = HealthProfileEnum::BONNE;
+    private HealthProfileEnum $healthProfile = HealthProfileEnum::CORRECT;
 
     #[ORM\Column]
     private ?int $reproductionCycleDays = null;

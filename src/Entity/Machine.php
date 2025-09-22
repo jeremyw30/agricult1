@@ -42,7 +42,7 @@ class Machine
     private ?string $basePrice = null;
 
     #[ORM\Column(type: Types::STRING, enumType: ConditionStatusEnum::class)]
-    private ConditionStatusEnum $conditionStatus = ConditionStatusEnum::BONNE;
+    private ConditionStatusEnum $conditionStatus = ConditionStatusEnum::FAVORABLE;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;

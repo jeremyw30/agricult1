@@ -1,0 +1,59 @@
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block content_title %}{{ title }}{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">EasyAdmin Installation Successful!</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success">
+                        <h4><i class="fa fa-check"></i> EasyAdmin Bundle Successfully Installed</h4>
+                        <p>EasyAdmin has been properly configured for the Agri-Cult application with the following management sections:</p>
+                    </div>
+                    
+                    <h5>Available Management Sections:</h5>
+                    <div class="row">
+                        {% for section, description in available_sections %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        {% if section == 'Parcelles' %}
+                                            <i class="fa fa-seedling"></i>
+                                        {% elseif section == 'Animaux' %}
+                                            <i class="fa fa-cow"></i>
+                                        {% elseif section == 'Machines' %}
+                                            <i class="fa fa-tractor"></i>
+                                        {% endif %}
+                                        {{ section }}
+                                    </h6>
+                                    <p class="card-text">{{ description }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <div class="alert alert-info mt-4">
+                        <h5><i class="fa fa-info-circle"></i> Next Steps</h5>
+                        <ul>
+                            <li>Configure your database connection</li>
+                            <li>Run database migrations</li>
+                            <li>Create an admin user</li>
+                            <li>Access the CRUD interfaces for managing your agricultural data</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="alert alert-warning">
+                        <h5><i class="fa fa-exclamation-triangle"></i> Database Connection Required</h5>
+                        <p>To access the full CRUD functionality, please ensure your database is properly configured and accessible.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
