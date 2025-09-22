@@ -12,9 +12,11 @@
 
 {# une autre maniére dans le: if is_granted('ROLE_ADMIN') #}
 
-
-
-<a href="{{ path('app_logout') }}" class="btn btn-danger">Me déconnecter</a>
-         <a href="{{ path('app_account_modify_pwd') }}" class="btn btn-success">Modifier Mot de Passe</a>
+        <div class="mt-4">
+            <a href="{{ path('app_logout') }}" class="btn btn-danger">Me déconnecter</a>
+            <a href="{{ path('app_account_modify_pwd') }}" class="btn btn-success">Modifier Mot de Passe</a>
+            <a href="{{ path('app_collaborations') }}" class="btn btn-info">Mes Collaborations</a>
+        </div>
     </div>
+</div>
 {% endblock %}

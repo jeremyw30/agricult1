@@ -84,6 +84,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Transaction::class, mappedBy: 'idUser')]
     private Collection $transactions;
 
+    /**
+     * @var Collection<int, Collaboration>
+     */
+    #[ORM\OneToMany(targetEntity: Collaboration::class, mappedBy: 'owner')]
+    private Collection $ownedCollaborations;
+
+    /**
+     * @var Collection<int, Collaboration>
+     */
+    #[ORM\OneToMany(targetEntity: Collaboration::class, mappedBy: 'collaborator')]
+    private Collection $collaborations;
+
     public function __construct()
     {
         $this->userParcelles = new ArrayCollection();
@@ -91,6 +103,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->userBatiments = new ArrayCollection();
         $this->userAnimals = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->ownedCollaborations = new ArrayCollection();
+        $this->collaborations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -401,5 +415,97 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Collaboration>
+     */
+    public function getOwnedCollaborations(): Collection
+    {
+        return $this->ownedCollaborations;
+    }
+
+    public function addOwnedCollaboration(Collaboration $collaboration): static
+    {
+        if (!$this->ownedCollaborations->contains($collaboration)) {
+            $this->ownedCollaborations->add($collaboration);
+            $collaboration->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwnedCollaboration(Collaboration $collaboration): static
+    {
+        if ($this->ownedCollaborations->removeElement($collaboration)) {
+            // set the owning side to null (unless already changed)
+            if ($collaboration->getOwner() === $this) {
+                $collaboration->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Collaboration>
+     */
+    public function getCollaborations(): Collection
+    {
+        return $this->collaborations;
+    }
+
+    public function addCollaboration(Collaboration $collaboration): static
+    {
+        if (!$this->collaborations->contains($collaboration)) {
+            $this->collaborations->add($collaboration);
+            $collaboration->setCollaborator($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCollaboration(Collaboration $collaboration): static
+    {
+        if ($this->collaborations->removeElement($collaboration)) {
+            // set the owning side to null (unless already changed)
+            if ($collaboration->getCollaborator() === $this) {
+                $collaboration->setCollaborator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Get effective roles including collaboration roles
+     */
+    public function getEffectiveRoles(): array
+    {
+        $roles = $this->getRoles();
+        
+        // Add collaboration roles for accepted collaborations
+        foreach ($this->collaborations as $collaboration) {
+            if ($collaboration->isAccepted()) {
+                $roles[] = $collaboration->getRole();
+            }
+        }
+
+        return array_unique($roles);
+    }
+
+    /**
+     * Check if user has write access to another user's resources
+     */
+    public function hasWriteAccessTo(User $owner): bool
+    {
+        foreach ($this->collaborations as $collaboration) {
+            if ($collaboration->getOwner() === $owner 
+                && $collaboration->isAccepted() 
+                && $collaboration->getRole() === 'ROLE_COLLABORATOR_WRITE') {
+                return true;
+            }
+        }
+        return false;
     }
 }
