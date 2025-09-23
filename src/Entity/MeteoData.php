@@ -7,16 +7,35 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MeteoDataRepository::class)]
 #[ORM\Table(name: 'meteo_data')]
-class MeteoData
+/**
+ * Classe métier météo protégée.
+ * Représente une donnée météo dans le système agricole.
+ * NE PAS MODIFIER la logique métier sans validation par jeremy !
+ *
+ * @author jeremyw30
+ */
+class MeteoData implements MeteoDataInterface
 {
+    /**
+     * Identifiant unique de la donnée météo.
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
+    /**
+     * Date et heure de la donnée météo.
+     * @var \DateTimeInterface|null
+     */
     #[ORM\Column(type: 'datetime')]
     private ?\DateTimeInterface $date = null;
 
+    /**
+     * Température mesurée.
+     * @var float|null
+     */
     #[ORM\Column(type: 'float')]
     private ?float $temperature = null;
 

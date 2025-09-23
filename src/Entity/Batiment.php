@@ -10,30 +10,61 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BatimentRepository::class)]
 #[ORM\Table(name: 'batiment')]
-class Batiment
+/**
+ * Classe métier bâtiment protégée.
+ * Représente un bâtiment agricole dans le système.
+ * NE PAS MODIFIER la logique métier sans validation !
+ *
+ * @author jeremyw30
+ */
+class Batiment implements BatimentInterface
 {
+    /**
+     * Identifiant unique du bâtiment.
+     * @var int|null
+     */
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id_batiment')]
     private ?int $idBatiment = null;
 
+    /**
+     * Nom du bâtiment.
+     * @var string|null
+     */
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
+    /**
+     * Type du bâtiment (enum).
+     * @var BatimentTypeEnum|null
+     */
     #[ORM\Column(type: Types::STRING, enumType: BatimentTypeEnum::class)]
     private ?BatimentTypeEnum $type = null;
 
+    /**
+     * Surface en m².
+     * @var string|null
+     */
     #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2)]
     private ?string $surfaceM2 = null;
 
+    /**
+     * Capacité de stockage.
+     * @var int|null
+     */
     #[ORM\Column(nullable: true)]
     private ?int $storageCapacity = null;
 
+    /**
+     * Prix de base du bâtiment.
+     * @var string|null
+     */
     #[ORM\Column(type: Types::DECIMAL, precision: 15, scale: 2)]
     private ?string $basePrice = null;
 
     #[ORM\Column(type: Types::STRING, enumType: ConditionStatusEnum::class)]
-    private ConditionStatusEnum $conditionStatus = ConditionStatusEnum::BONNE;
+    private ConditionStatusEnum $conditionStatus = ConditionStatusEnum::OPTIMAL;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
