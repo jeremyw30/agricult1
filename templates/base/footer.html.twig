@@ -27,8 +27,8 @@
         <div class="footer-col">
       <h4>✉️ Contact & Aide</h4>
       <ul>
-        <li><a href="#" class="modal-link" data-modal="contact-modal">Nous contacter</a></li>
-                <li><a href="#">Signaler un bug</a></li>
+  <li><a href="#" class="modal-link" data-modal="contact-modal">Nous contacter</a></li>
+  <li><a href="#" class="modal-link" data-modal="bug-footer-modal">Signaler un bug</a></li>
                 <li><a href="#">Règles du jeu</a></li>
                 <li><a href="#">Forum</a></li>
             </ul>
@@ -38,6 +38,39 @@
         © 2025 Agri-Cult – Tous droits réservés.
     </div>
 </footer>
+
+<!-- Modal Bug Footer -->
+<div id="bug-footer-modal" class="custom-modal">
+  <div class="custom-modal-content" style="max-width: 480px;">
+    <span class="custom-modal-close">&times;</span>
+    <h2 style="color:#e53935;">Signaler un bug</h2>
+    <div style="margin-bottom:10px; color:#333; font-size:13px; text-align:left; font-weight:500;">
+      <span style="font-size:18px; vertical-align:middle; margin-right:6px;">📌</span> <b style="text-decoration:underline;">À lire avant de signaler un bug :</b><br>
+      <span style="font-size:16px; color:#2196f3; margin-right:4px;">✅</span> Décrivez clairement le problème.<br>
+      <span style="font-size:16px; color:#2196f3; margin-right:4px;">✅</span> Ajoutez une capture d’écran si possible.<br>
+      <span style="font-size:16px; color:#2196f3; margin-right:4px;">✅</span> Mentionnez votre navigateur / appareil.<br>
+      <span style="font-size:16px; color:#e53935; margin-right:4px;">❌</span> Pas de langage SMS.<br>
+      <span style="font-size:16px; color:#e53935; margin-right:4px;">❌</span> Pas de demandes de conseils ou de suggestions.<br>
+      <span style="font-size:16px; color:#e53935; margin-right:4px;">❌</span> Pas de signalement de joueurs ici.
+    </div>
+    <form id="bug-footer-form" style="margin:0; display:flex; flex-direction:column; gap:10px;" enctype="multipart/form-data" method="post" action="#">
+      <input type="text" maxlength="60" placeholder="Votre identifiant de jeu ou email" style="width:100%;font-size:13px;padding:7px 8px;border-radius:4px;border:1px solid #bbb; margin-bottom:2px;" required>
+      <input type="text" maxlength="80" placeholder="Résumé du bug (ex : Impossible de récolter le blé)" style="width:100%;font-size:13px;padding:7px 8px;border-radius:4px;border:1px solid #bbb; margin-bottom:2px;" required>
+      <textarea rows="5" maxlength="600" placeholder="Description détaillée (explication, étapes pour reproduire le bug)" style="width:100%;font-size:13px;padding:7px 8px;border-radius:4px;border:1px solid #bbb; resize:vertical;" required></textarea>
+      <select style="width:100%;font-size:13px;padding:7px 8px;border-radius:4px;border:1px solid #bbb; margin-bottom:2px;" required>
+        <option value="">Catégorie du bug</option>
+        <option>Affichage / Interface</option>
+        <option>Performances / Lags</option>
+        <option>Gameplay / Fonctionnement</option>
+        <option>Problème de compte / connexion</option>
+        <option>Autre</option>
+      </select>
+      <input type="text" maxlength="40" placeholder="Navigateur ou appareil utilisé (ex : Chrome, mobile...)" style="width:100%;font-size:13px;padding:7px 8px;border-radius:4px;border:1px solid #bbb; margin-bottom:2px;">
+      <input type="file" accept="image/*" style="margin-bottom:2px;">
+      <button type="submit" style="background:#e53935;color:#fff;border:none;border-radius:4px;padding:7px 0;font-size:14px;font-weight:bold;cursor:pointer;margin-top:2px;">Envoyer</button>
+    </form>
+  </div>
+</div>
 
 <!-- Modal Contact -->
 <div id="contact-modal" class="custom-modal">
@@ -255,6 +288,97 @@
 </div>
 
 <style>
+  /* -------- MODALE BUG FOOTER -------- */
+  #bug-footer-modal .custom-modal-content {
+    background: #f8f9fa;
+    border-radius: 22px;
+    box-shadow: 0 8px 32px rgba(33,150,243,0.22);
+    padding: 32px 24px 24px 24px;
+    min-width: 320px;
+    max-width: 95vw;
+    margin: auto;
+    position: relative;
+    font-family: 'Work Sans', sans-serif;
+    animation: modalIn 0.25s;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  @keyframes modalIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  #bug-footer-modal h2 {
+    margin: 0 0 14px 0;
+    color: #e53935;
+    font-size: 1.15em;
+    text-align: center;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+  }
+  #bug-footer-modal .custom-modal-close {
+    position: absolute;
+    top: 10px; right: 12px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #e53935;
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  #bug-footer-modal .custom-modal-close:hover {
+    color: #2196f3;
+  }
+  #bug-footer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  #bug-footer-form input[type="text"],
+  #bug-footer-form input[type="email"],
+  #bug-footer-form input[type="file"],
+  #bug-footer-form textarea,
+  #bug-footer-form select {
+    width: 100%;
+    font-size: 13px;
+    padding: 7px 8px;
+    border-radius: 4px;
+    border: 1px solid #bbb;
+    margin-bottom: 2px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+  }
+  #bug-footer-form input:focus,
+  #bug-footer-form textarea:focus,
+  #bug-footer-form select:focus {
+    border-color: #2196f3;
+    outline: none;
+  }
+  #bug-footer-form button[type="submit"] {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 7px 0;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 2px;
+    transition: background 0.2s;
+  }
+  #bug-footer-form button[type="submit"]:hover {
+    background: #2196f3;
+  }
+  #bug-footer-form label {
+    font-size: 12px;
+    color: #333;
+    margin-top: 4px;
+  }
+  @media (max-width: 500px) {
+    #bug-footer-modal .custom-modal-content {
+      padding: 12px 4vw;
+      min-width: 0;
+    }
+  }
     .custom-modal {
         display: none;
         position: fixed;
