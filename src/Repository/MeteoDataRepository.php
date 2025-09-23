@@ -16,9 +16,9 @@ class MeteoDataRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('m')
             ->andWhere('m.date = :date')
-            ->andWhere('m.zone = :zone')
+            ->andWhere('LOWER(m.zone) = :zone')
             ->setParameter('date', $date)
-            ->setParameter('zone', $zone)
+            ->setParameter('zone', mb_strtolower($zone))
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -37,21 +37,29 @@ class MeteoDataRepository extends ServiceEntityRepository
      */
     public function findClosestByDatetimeAndZone(\DateTimeInterface $dateTime, string $zone)
     {
-        $month = $dateTime->format('m');
-        $day = $dateTime->format('d');
-        $hour = $dateTime->format('H');
+        $month = (int) $dateTime->format('n');
+        $day = (int) $dateTime->format('j');
+        $hour = (int) $dateTime->format('G');
 
-        return $this->createQueryBuilder('m')
-            ->andWhere('MONTH(m.date) = :month')
-            ->andWhere('DAY(m.date) = :day')
-            ->andWhere('HOUR(m.date) = :hour')
-            ->andWhere('m.zone = :zone')
-            ->setParameter('month', $month)
-            ->setParameter('day', $day)
-            ->setParameter('hour', $hour)
-            ->setParameter('zone', $zone)
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        $conn = $this->getEntityManager()->getConnection();
+                $sql = 'SELECT id FROM meteo_data 
+                                WHERE LOWER(zone) = :zone 
+                  AND EXTRACT(MONTH FROM date) = :month 
+                  AND EXTRACT(DAY FROM date) = :day 
+                  AND EXTRACT(HOUR FROM date) = :hour 
+                ORDER BY date ASC 
+                LIMIT 1';
+        $result = $conn->fetchOne($sql, [
+                        'zone' => mb_strtolower($zone),
+            'month' => $month,
+            'day' => $day,
+            'hour' => $hour,
+        ]);
+
+        if ($result === false) {
+            return null;
+        }
+
+        return $this->find((int) $result);
     }
 }

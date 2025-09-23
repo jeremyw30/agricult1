@@ -1,0 +1,17 @@
+services:
+  app:
+    environment:
+      APP_ENV: prod
+    command: >-
+      sh -c "composer install --no-dev --optimize-autoloader --no-interaction --prefer-dist 
+      && php bin/console cache:clear --env=prod 
+      && php bin/console cache:warmup --env=prod 
+      && php-fpm -F"
+
+  # One-off assets build for production (run-and-exit)
+  assets_build:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh -c "(npm ci || npm install) && npm run build"

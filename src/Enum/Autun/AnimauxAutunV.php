@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Enum;
+namespace App\Enum\Autun;
 
 /**
  * Enum des races animales disponibles dans la région d'Autun (Bourgogne).
  */
-enum AnimalAutunEnum: string
+enum AnimauxAutunV: string
 {
     // 🐄 Vaches
     case VACHE_CHAROLAISE = 'vache_charolaise';

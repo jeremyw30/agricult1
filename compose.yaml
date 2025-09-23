@@ -1,25 +1,108 @@
-
+version: "3.9"
 services:
-###> doctrine/doctrine-bundle ###
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      database:
+        condition: service_healthy
+      mercure:
+        condition: service_started
+      mailer:
+        condition: service_started
+    environment:
+      APP_ENV: dev
+      APP_SECRET: insecure-app-secret
+      # Use PostgreSQL service hostname from the Compose network
+      DATABASE_URL: postgresql://app:app@database:5432/agricult?serverVersion=16&charset=utf8
+      MAILER_DSN: smtp://mailer:1025
+      MERCURE_URL: http://mercure/.well-known/mercure
+      MERCURE_PUBLIC_URL: http://localhost/.well-known/mercure
+      MERCURE_JWT_SECRET: "!ChangeThisMercureHubJWTSecretKey!"
+      TRUSTED_PROXIES: 0.0.0.0/0
+      TRUSTED_HOSTS: ^localhost|127\\.0\\.0\\.1|app$
+    volumes:
+      - ./:/var/www/html
+
+
+  nginx:
+    image: nginx:1.27-alpine
+    depends_on:
+      app:
+        condition: service_started
+    volumes:
+      - ./:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=agricult1_default
+      - traefik.http.routers.frontend.rule=Host(`localhost`)
+      - traefik.http.routers.frontend.entrypoints=web
+      - traefik.http.routers.frontend.service=frontend
+      - traefik.http.services.frontend.loadbalancer.server.port=80
   database:
     image: postgres:${POSTGRES_VERSION:-16}-alpine
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      POSTGRES_DB: agricult
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
     healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
+      test: ["CMD", "pg_isready", "-d", "agricult", "-U", "app"]
       timeout: 5s
-      retries: 5
-      start_period: 60s
+      interval: 5s
+      retries: 15
+      start_period: 20s
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
-      # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
-      # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+      - db_data:/var/lib/postgresql/data:rw
+
+  mailer:
+    image: axllent/mailpit
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+  mercure:
+    image: dunglas/mercure
+    environment:
+      SERVER_NAME: ':80'
+      MERCURE_PUBLISHER_JWT_KEY: ${MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_SUBSCRIBER_JWT_KEY: ${MERCURE_JWT_SECRET:-!ChangeThisMercureHubJWTSecretKey!}
+      MERCURE_CORS_ALLOWED_ORIGINS: ${MERCURE_CORS_ALLOWED_ORIGINS:-*}
+      MERCURE_PUBLISH_ALLOWED_ORIGINS: ${MERCURE_PUBLISH_ALLOWED_ORIGINS:-*}
+      # Optional extra directives
+      MERCURE_EXTRA_DIRECTIVES: |
+        cors_origins *
+    labels:
+      - traefik.enable=true
+      - traefik.docker.network=agricult1_default
+      - traefik.http.routers.mercure.rule=Host(`localhost`) && PathPrefix(`/.well-known/mercure`)
+      - traefik.http.routers.mercure.entrypoints=web
+      - traefik.http.services.mercure.loadbalancer.server.port=80
+
+  assets:
+    image: node:20-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app
+    command: sh -c "(npm ci || npm install) && npm run watch"
+    depends_on:
+      - app
+
+  traefik:
+    image: traefik:v2.11
+    command:
+      - --providers.docker=true
+      - --providers.docker.exposedbydefault=false
+      - --entrypoints.web.address=:80
+      - --api.dashboard=true
+      - --api.insecure=true
+      - --log.level=DEBUG
+    ports:
+      - "80:80"
+      - "8080:8080" # dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
 
 volumes:
-###> doctrine/doctrine-bundle ###
-  database_data:
-###< doctrine/doctrine-bundle ###
+  db_data:
