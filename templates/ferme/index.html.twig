@@ -471,15 +471,38 @@
   <!-- Fin Modal -->
 
   <!-- Bloc-notes (VIDE) -->
-  <section class="card notes">
-    <span class="ribbon">📝 Bloc-notes principal</span>
-    <div class="notes-box empty" aria-label="Bloc-notes vide">
-      (Votre bloc-notes est vide. Ajoutez vos tâches, rappels, idées…)
-    </div>
-    <div class="actions">
-      <a href="#" class="btn">Ajouter une note</a>
-    </div>
-  </section>
+    <section class="card notes">
+      <span class="ribbon">📝 Bloc-notes principal</span>
+      <div class="notes-box{% if notes is empty %} empty{% endif %}" aria-label="Bloc-notes">
+        {% if notes is empty %}
+          (Votre bloc-notes est vide. Ajoutez vos tâches, rappels, idées…)
+        {% else %}
+          <ul class="list">
+            {% for note in notes %}
+              <li class="item">
+                <div class="ico">📝</div>
+                <div>
+                  <div class="title">{{ note.title|default('Note') }}</div>
+                  <div class="meta">{{ note.content|default(note) }}</div>
+                </div>
+                <div class="badges">
+                  {% if note.date is defined %}
+                    <span class="badge info">{{ note.date|date('d/m/Y') }}</span>
+                  {% endif %}
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="actions">
+          <form method="post" class="note-form" style="width:100%; margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+            <input type="text" name="note_title" placeholder="Titre de la note" required style="padding:8px; border-radius:8px; border:1px solid var(--line); font-size:1em;">
+            <textarea name="note_content" placeholder="Contenu de la note" required style="padding:8px; border-radius:8px; border:1px solid var(--line); font-size:1em; min-height:60px;"></textarea>
+            <button type="submit" class="btn" style="align-self:flex-end;">Ajouter la note</button>
+          </form>
+        </div>
+    </section>
 
   <!-- Animaux à soigner -->
   <section class="card animaux">
