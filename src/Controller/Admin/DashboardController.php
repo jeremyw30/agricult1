@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class DashboardController extends AbstractDashboardController
 {
     #[Route('/admin', name: 'admin')]
-public function i    public function index(): Response
+    public function index(): Response
     {
         // Option A: laisse l'accueil EasyAdmin S'IL Y A un menu (ce sera le cas juste après)
         return parent::index();
