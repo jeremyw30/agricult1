@@ -269,6 +269,45 @@
     }
 </style>
 
+  <style>
+    /* Style commun pour les titres des modals */
+    .custom-modal-content h1,
+    .custom-modal-content h2,
+    .custom-modal-content h3,
+    .custom-modal-content h4 {
+      color: #9dab7e;
+      font-weight: bold;
+      margin-top: 18px;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+    /* Style pour les boutons et liens dans les modals */
+    .custom-modal-content a,
+    .custom-modal-content button {
+      color: #9dab7e;
+      font-weight: 600;
+      background: none;
+      border: none;
+      cursor: pointer;
+      text-decoration: underline;
+      font-size: 16px;
+      transition: color 0.2s;
+    }
+    .custom-modal-content a:hover,
+    .custom-modal-content button:hover {
+      color: #8b6b47;
+    }
+    /* Pour les listes dans les modals */
+    .custom-modal-content ul {
+      padding-left: 18px;
+      margin-bottom: 12px;
+    }
+    .custom-modal-content li {
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+  </style>
+
 <script>
     document.querySelectorAll('.modal-link').forEach(function(link) {
         link.addEventListener('click', function(e) {
