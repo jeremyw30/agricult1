@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Enum\Autun;
+namespace App\Enum;
 
 /**
- * Enum des bâtiments agricoles disponibles dans Agri-Cult.
- * Mélange de stockage, élevage, transformation et bonus.
+ * Enum unifiée des types de bâtiments agricoles utilisés dans l'application.
+ * Regroupe les valeurs communes et spécifiques (Autun, Gavray) pour assurer
+ * la compatibilité avec les entités existantes (Doctrine enumType).
  */
-enum BatimentAutunV: string
+enum BatimentTypeEnum: string
 {
     // 🌾 Cultures / Stockage
     case HANGAR_MATERIEL = 'hangar_materiel';
@@ -18,16 +19,22 @@ enum BatimentAutunV: string
     case RESERVE_PHYTO = 'reserve_phytosanitaires';
     case CITERNE_EAU = 'citerne_eau';
 
-    // 🐄 Élevage
+    // 🐮 Bovins / Élevage
     case ETABLE_LAITIERES = 'etable_laitieres';
     case ETABLE_ALLAITANTES = 'etable_allaitantes';
     case SALLE_TRAITE = 'salle_traite';
     case FOSSE_LISIER_BOVIN = 'fosse_lisier_bovin';
+
+    // 🐷 Porcs
     case PORCHERIE = 'porcherie';
     case FOSSE_LISIER_PORCIN = 'fosse_lisier_porcin';
+
+    // 🐔 Poules
     case POULAILLER_PONDEUSES = 'poulailler_pondeuses';
     case POULAILLER_CHAIR = 'poulailler_chair';
     case STOCK_OEUFS = 'stock_oeufs';
+
+    // 🐑 Moutons
     case BERGERIE = 'bergerie';
     case SALLE_TONTE = 'salle_tonte';
     case ABRI_PATURE = 'abri_pature';
@@ -39,11 +46,15 @@ enum BatimentAutunV: string
     case MAGASIN_VENTE = 'magasin_vente';
     case ATELIER_BARQUETTE = 'atelier_barquette';
 
-    // ⚙️ Fonction
+    // ⚙️ Fonction / Autres
     case GARAGE = 'garage';
     case ATELIER_MECANIQUE = 'atelier_mecanique';
     case LABO_SEMENCES = 'laboratoire_semences';
     case SERRE = 'serre';
+
+    // Spécifiques (Gavray)
+    case BUREAU_GESTION = 'bureau_gestion';
+    case CHAMBRE_FROIDE = 'chambre_froide';
 
     // 💬 Bonus / Futur
     case MAISON_FERMIER = 'maison_fermier';

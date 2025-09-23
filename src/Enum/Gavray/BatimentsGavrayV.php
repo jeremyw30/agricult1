@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Enum;
+namespace App\Enum\Gavray;
 
 /**
  * Enum des bâtiments agricoles pour la région Gavray (Normandie).
  */
-enum BatimentGavrayEnum: string
+enum BatimentsGavrayV: string
 {
     // 🌾 Cultures / Stockage
     case HANGAR_MATERIEL = 'hangar_materiel';

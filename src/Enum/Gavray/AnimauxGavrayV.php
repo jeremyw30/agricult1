@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Enum;
+namespace App\Enum\Gavray;
 
 /**
  * Enum des races animales disponibles dans la région de Gavray (Normandie).
  */
-enum AnimalGavrayEnum: string
+enum AnimauxGavrayV: string
 {
     // 🐄 Vaches
     case VACHE_NORMANDE = 'vache_normande';
