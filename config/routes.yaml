@@ -1,3 +1,7 @@
+# Page des règles du jeu
+regles:
+    path: /regles
+    controller: App\Controller\ReglesController::index
 controllers:
     resource:
         path: ../src/Controller/

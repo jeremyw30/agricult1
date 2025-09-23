@@ -1,0 +1,176 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Règles du jeu{% endblock %}
+
+{% block body %}
+<style>
+  .regles-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 36px 18px 40px 18px;
+    background: #f8f9fa;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px rgba(80,80,80,0.10);
+    text-align: center;
+  }
+  .regles-container h1 {
+    color: #8b6b47;
+    font-size: 2.2em;
+    margin-bottom: 18px;
+    letter-spacing: 1px;
+  }
+  .regles-container .toc {
+    background: #e6ecd7;
+    border-radius: 10px;
+    padding: 18px 12px;
+    margin-bottom: 28px;
+    text-align: left;
+    display: inline-block;
+    box-shadow: 0 2px 12px rgba(80,80,80,0.08);
+  }
+  .regles-container .toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .regles-container .toc li {
+    margin-bottom: 8px;
+    font-size: 1.08em;
+  }
+  .regles-container .toc a {
+    color: #8b6b47;
+    text-decoration: underline;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  .regles-container .toc a:hover {
+    color: #e53935;
+  }
+  .regles-container h2 {
+    color: #2196f3;
+    font-size: 1.35em;
+    margin-top: 36px;
+    margin-bottom: 12px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    text-align: center;
+  }
+  .regles-container ul, .regles-container ol {
+    text-align: left;
+    margin: 0 auto 18px auto;
+    max-width: 600px;
+    font-size: 1.08em;
+  }
+  .regles-container li {
+    margin-bottom: 8px;
+  }
+  .regles-container p {
+    text-align: center;
+    font-size: 1.08em;
+    margin-bottom: 18px;
+  }
+  @media (max-width: 600px) {
+    .regles-container { padding: 12px 2vw; }
+    .regles-container .toc { padding: 10px 4vw; }
+  }
+</style>
+<div class="regles-container">
+  <h1>Règles du jeu</h1>
+  <div class="toc">
+    <strong>Table des matières</strong>
+    <ul>
+      <li><a href="#objectif">1. Objectif du jeu</a></li>
+      <li><a href="#temps">2. Temps et calendrier</a></li>
+      <li><a href="#heures">3. Système de temps (Heures de travail)</a></li>
+      <li><a href="#meteo">4. Météo & environnement</a></li>
+      <li><a href="#ressources">5. Gestion des ressources</a></li>
+      <li><a href="#marche">6. Marché & échanges</a></li>
+      <li><a href="#interaction">7. Interaction entre joueurs</a></li>
+      <li><a href="#conduite">8. Règles de conduite</a></li>
+      <li><a href="#admin">9. Administration & sanctions</a></li>
+      <li><a href="#but">10. But final</a></li>
+    </ul>
+  </div>
+  <p>Bienvenue dans Agri-Cult, le jeu de simulation agricole réaliste où tu prends la tête de ta propre exploitation.<br>
+  Avant de jouer, merci de lire attentivement ces règles. Elles garantissent une expérience équilibrée, réaliste et respectueuse pour tous.</p>
+  <h2 id="objectif">1. 🎯 Objectif du jeu</h2>
+  <ul>
+    <li>Développer et gérer ton exploitation agricole (parcelles, animaux, machines, bâtiments, économie).</li>
+    <li>Produire, transformer et vendre pour dégager un revenu et faire croître ta ferme.</li>
+    <li>Gérer ton temps (H – Heures de travail), tes ressources et tes investissements avec stratégie.</li>
+    <li>Coopérer ou rivaliser avec les autres agriculteurs.</li>
+  </ul>
+  <h2 id="temps">2. 🕰️ Temps et calendrier</h2>
+  <ul>
+    <li>1 jour réel = 3 jours en jeu.</li>
+    <li>Chaque journée en jeu se découpe en 12h de jour / 12h de nuit (cycle influencé par les saisons).</li>
+    <li>Les saisons (printemps, été, automne, hiver) influencent : climat, rendements, durée du jour/nuit.</li>
+    <li>7 jours réels = 1 mois en jeu, 12 mois = 1 an en jeu.</li>
+  </ul>
+  <h2 id="heures">3. ⏳ Système de temps (Heures de travail – H)</h2>
+  <ul>
+    <li>Chaque joueur dispose d’un capital d’heures (H) chaque jour.</li>
+    <li>Chaque action consomme un certain temps selon sa nature et la taille de la parcelle :</li>
+    <ul>
+      <li>0 à 10 ha → 30 min</li>
+      <li>10 à 20 ha → 1h</li>
+      <li>20 à 30 ha → 1h30</li>
+    </ul>
+    <li>Les H se renouvellent chaque jour en jeu.</li>
+  </ul>
+  <h2 id="meteo">4. 🌦️ Météo & environnement</h2>
+  <ul>
+    <li>La météo est dynamique et dépend de la saison (pluie, soleil, neige, brouillard).</li>
+    <li>Elle influence :</li>
+    <ul>
+      <li>Les rendements 🌾</li>
+      <li>La santé animale 🐄🐔🐖</li>
+      <li>La faisabilité des travaux (labour, récolte, foin, etc.).</li>
+    </ul>
+  </ul>
+  <h2 id="ressources">5. 🚜 Gestion des ressources</h2>
+  <ul>
+    <li>Parcelles : rendement influencé par le sol, la rotation, la météo et les maladies.</li>
+    <li>Animaux : alimentation, hygiène, reproduction, maladies.</li>
+    <li>Machines : consommation, entretien, usure.</li>
+    <li>Bâtiments : stockage, confort animal, protection météo.</li>
+    <li>Économie : tout est basé en € (euros).</li>
+  </ul>
+  <h2 id="marche">6. 💱 Marché & échanges</h2>
+  <ul>
+    <li>Tu peux vendre ta production sur le marché local (prix fluctuant selon l’offre et la demande).</li>
+    <li>Tu peux acheter des semences, animaux, machines, bâtiments.</li>
+    <li>Possibilité de contrats entre joueurs.</li>
+  </ul>
+  <h2 id="interaction">7. 🤝 Interaction entre joueurs</h2>
+  <ul>
+    <li>Les joueurs peuvent échanger, coopérer ou entrer en concurrence.</li>
+    <li>Respect et fair-play obligatoires.</li>
+    <li>Aucun abus, arnaque ou contournement des règles n’est toléré.</li>
+  </ul>
+  <h2 id="conduite">8. ⚖️ Règles de conduite</h2>
+  <ul>
+    <li>Un seul compte par joueur (multi-comptes interdits).</li>
+    <li>Respect des autres joueurs et de l’équipe d’administration.</li>
+    <li>Aucun langage offensant, discriminatoire ou violent.</li>
+    <li>Interdiction d’utiliser bots, scripts ou triche.</li>
+  </ul>
+  <h2 id="admin">9. 👨‍⚖️ Administration & sanctions</h2>
+  <ul>
+    <li>L’équipe Agri-Cult (administrateurs, modérateurs) veille au respect des règles.</li>
+    <li>En cas d’infraction, les sanctions possibles :</li>
+    <ul>
+      <li>⚠️ Avertissement</li>
+      <li>⏸️ Suspension temporaire</li>
+      <li>⛔ Bannissement définitif</li>
+    </ul>
+  </ul>
+  <h2 id="but">10. 🏆 But final</h2>
+  <ul>
+    <li>Il n’y a pas de "fin" au jeu :</li>
+    <li>Tu peux développer ton exploitation à l’infini.</li>
+    <li>L’objectif est de créer la ferme la plus réaliste, prospère et durable possible.</li>
+    <li>Des classements saisonniers et des succès viendront récompenser les meilleurs joueurs.</li>
+  </ul>
+  </div>
+  {% endblock %}
