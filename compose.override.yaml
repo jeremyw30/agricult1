@@ -1,18 +1,22 @@
-
 services:
-###> doctrine/doctrine-bundle ###
+  app:
+    # Dev convenience: install deps at container start (php-fpm runs by default)
+    command: >-
+      bash -lc "git config --global --add safe.directory /var/www/html &&
+      (composer install --no-interaction --prefer-dist || composer update --no-interaction --prefer-dist) &&
+      printf '%s\n' 'opcache.validate_timestamps=1' 'opcache.revalidate_freq=0' > /usr/local/etc/php/conf.d/zz-dev-opcache.ini &&
+      php-fpm -F"
+
   database:
     ports:
-      - "5432"
-###< doctrine/doctrine-bundle ###
+      - "5432:5432"
 
-###> symfony/mailer ###
   mailer:
-    image: axllent/mailpit
     ports:
-      - "1025"
-      - "8025"
-    environment:
-      MP_SMTP_AUTH_ACCEPT_ANY: 1
-      MP_SMTP_AUTH_ALLOW_INSECURE: 1
-###< symfony/mailer ###
+      - "1025:1025"
+      - "8025:8025"
+
+  traefik:
+    ports:
+      - "80:80"
+      - "8080:8080"

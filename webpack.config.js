@@ -11,6 +11,8 @@ Encore
   .setOutputPath("public/build/")
   // public path used by the web server to access the output path
   .setPublicPath("/build")
+  // enable Stimulus bridge to wire controllers.json
+  .enableStimulusBridge('./assets/controllers.json')
   // only needed for CDN's or subdirectory deploy
   //.setManifestKeyPrefix('build/')
 

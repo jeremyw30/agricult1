@@ -59,7 +59,8 @@ class ImportMeteoGavrayCommand extends Command
                     $meteoData->setWeather($weatherData['weather']);
                     $meteoData->setSummary($weatherData['summary']);
                     $meteoData->setCloudCover($weatherData['cloud_cover']['total'] ?? null);
-                    $meteoData->setZone('Gavray');
+                    // Normalize zone to lowercase for consistent queries
+                    $meteoData->setZone('gavray');
                     $this->entityManager->persist($meteoData);
                 }
             }
