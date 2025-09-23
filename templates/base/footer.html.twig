@@ -25,9 +25,9 @@
             </div>
         </div>
         <div class="footer-col">
-            <h4>✉️ Contact & Aide</h4>
-            <ul>
-                <li><a href="#">Nous contacter</a></li>
+      <h4>✉️ Contact & Aide</h4>
+      <ul>
+        <li><a href="#" class="modal-link" data-modal="contact-modal">Nous contacter</a></li>
                 <li><a href="#">Signaler un bug</a></li>
                 <li><a href="#">Règles du jeu</a></li>
                 <li><a href="#">Forum</a></li>
@@ -38,6 +38,29 @@
         © 2025 Agri-Cult – Tous droits réservés.
     </div>
 </footer>
+
+<!-- Modal Contact -->
+<div id="contact-modal" class="custom-modal">
+  <div class="custom-modal-content">
+    <span class="custom-modal-close">&times;</span>
+    <h2>Contactez-nous</h2>
+    <form id="contact-form" method="post" action="#">
+      <div style="margin-bottom: 12px;">
+        <label for="contact-name">Nom :</label><br>
+        <input type="text" id="contact-name" name="name" required style="width: 100%; padding: 6px;">
+      </div>
+      <div style="margin-bottom: 12px;">
+        <label for="contact-email">Email :</label><br>
+        <input type="email" id="contact-email" name="email" required style="width: 100%; padding: 6px;">
+      </div>
+      <div style="margin-bottom: 12px;">
+        <label for="contact-message">Message :</label><br>
+        <textarea id="contact-message" name="message" rows="4" required style="width: 100%; padding: 6px;"></textarea>
+      </div>
+      <button type="submit" style="background-color: #9dab7e; color: #fff; border: none; padding: 8px 18px; border-radius: 6px; font-weight: bold; cursor: pointer;">Envoyer</button>
+    </form>
+  </div>
+</div>
 
 <!-- Modals -->
 <div id="about-modal" class="custom-modal">
