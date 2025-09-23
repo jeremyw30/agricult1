@@ -10,9 +10,9 @@
         <div class="footer-col">
             <h4>ℹ️ À propos</h4>
             <ul>
-                <li><a href="#">Qui sommes-nous ?</a></li>
-                <li><a href="#" id="legal-link">Mentions légales</a></li>
-                <li><a href="#">CGU</a></li>
+                    <li><a href="#" class="modal-link" data-modal="about-modal">Qui sommes-nous ?</a></li>
+                    <li><a href="#" class="modal-link" data-modal="legal-modal">Mentions légales</a></li>
+                    <li><a href="#" class="modal-link" data-modal="cgu-modal">CGU</a></li>
             </ul>
         </div>
         <div class="footer-col">
@@ -38,6 +38,93 @@
         © 2025 Agri-Cult – Tous droits réservés.
     </div>
 </footer>
+
+<!-- Modals -->
+<div id="about-modal" class="custom-modal">
+    <div class="custom-modal-content">
+        <span class="custom-modal-close">&times;</span>
+        <h2>Qui sommes-nous ?</h2>
+        <p>Agri-Cult est un projet collaboratif dédié à l'agriculture et à la gestion de ferme virtuelle.</p>
+    </div>
+</div>
+<div id="legal-modal" class="custom-modal">
+    <div class="custom-modal-content">
+        <span class="custom-modal-close">&times;</span>
+        <h2>Mentions légales</h2>
+        <p>Site édité par Agri-Cult. Tous droits réservés. Pour plus d'informations, contactez-nous.</p>
+    </div>
+</div>
+<div id="cgu-modal" class="custom-modal">
+    <div class="custom-modal-content">
+        <span class="custom-modal-close">&times;</span>
+        <h2>Conditions Générales d'Utilisation</h2>
+        <p>En utilisant ce site, vous acceptez nos conditions générales d'utilisation.</p>
+    </div>
+</div>
+
+<style>
+    .custom-modal {
+        display: none;
+        position: fixed;
+        z-index: 9999;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+    .custom-modal-content {
+        background-color: #fff;
+        margin: 8% auto;
+        padding: 32px 24px 24px 24px;
+        border: 2px solid #8b6b47;
+        width: 90%;
+        max-width: 420px;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(80,80,80,0.18);
+        position: relative;
+        color: #333;
+    }
+    .custom-modal-close {
+        color: #8b6b47;
+        position: absolute;
+        top: 12px;
+        right: 18px;
+        font-size: 32px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.2s;
+    }
+    .custom-modal-close:hover {
+        color: #333;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.modal-link').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            var modalId = link.getAttribute('data-modal');
+            var modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        });
+    });
+    document.querySelectorAll('.custom-modal-close').forEach(function(closeBtn) {
+        closeBtn.addEventListener('click', function() {
+            closeBtn.closest('.custom-modal').style.display = 'none';
+        });
+    });
+    window.addEventListener('click', function(event) {
+        document.querySelectorAll('.custom-modal').forEach(function(modal) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    });
+</script>
 
 <style>
     .footer {
